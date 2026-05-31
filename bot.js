@@ -21,9 +21,9 @@ const accounts = [
 
 const proxies = [
     { host: '167.71.32.51',   port: 1080, type: 5, username: '', password: '' },
-    //{ host: '192.252.214.17', port: 4145, type: 5, username: '', password: '' },
+    { host: '192.252.214.17', port: 4145, type: 5, username: '', password: '' },
     //{ host: '67.201.35.145',  port: 4145, type: 5, username: '', password: '' },
-    //{ host: '174.75.211.193', port: 4145, type: 5, username: '', password: '' },
+    { host: '174.75.211.193', port: 4145, type: 5, username: '', password: '' },
     { host: '72.223.188.67',  port: 4145, type: 5, username: '', password: '' },
     { host: '72.207.33.64',   port: 4145, type: 5, username: '', password: '' },
 ];
@@ -392,6 +392,9 @@ function createBot(username, onReady = null) {
 
     fireReady();
 });
+
+    setTimeout(() => fireReady(), 60000);
+}
 
 // ─── Start ────────────────────────────────────────────────────────────────────
 
