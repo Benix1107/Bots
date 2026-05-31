@@ -373,12 +373,25 @@ function createBot(username, onReady = null) {
     });
 
     bot.on('error', (err) => {
-        console.log(`[!] ${username} Fehler: ${err.message}`);
-        fireReady();
-    });
+    console.log(`[!] ${username} Fehler: ${err.message}`);
 
-    setTimeout(() => fireReady(), 60000);
-}
+    if (err.message.includes('Failed to obtain profile data')) {
+        console.log(`[💤] ${username} — Account-Fehler, warte 15 Min...`);
+        notify(
+            `💤 **${username}** — Account-Fehler (Minecraft Profil)!\n→ Warte 15 Min vor erneutem Versuch`,
+            username, true
+        );
+
+        // Nicht scheduleReconnect aufrufen — direkt 15 Min warten
+        setTimeout(() => createBot(username), 15 * 60 * 1000);
+
+        // fireReady damit die Login-Queue weiterläuft
+        fireReady();
+        return;
+    }
+
+    fireReady();
+});
 
 // ─── Start ────────────────────────────────────────────────────────────────────
 
