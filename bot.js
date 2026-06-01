@@ -16,7 +16,7 @@ process.on('unhandledRejection', (reason) => {
 });
 
 const accounts = [
-    'NebelBenix', 'alkaner12', 'Dihloco', 'meloupup', 'DrDihNut', 'Aawaz3', 'Saugroboter3', 'Oafka40', 'FullestFox'
+    'FreeB4B', 'NebelBenix', 'alkaner12', 'Dihloco', 'meloupup', 'DrDihNut', 'Aawaz3', 'Saugroboter3', 'Oafka40', 'FullestFox'
 ];
 
 const proxies = [
