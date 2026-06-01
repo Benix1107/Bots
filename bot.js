@@ -1,5 +1,8 @@
 const mineflayer = require('mineflayer');
 const { SocksClient } = require('socks');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
 
 const HOST = 'donutsmp.net';
 const PORT = 25565;
@@ -35,14 +38,23 @@ const LOGIN_DELAY            = 30 * 1000;
 const NOTIFY_COOLDOWN_MS     = 5 * 60 * 1000;
 const MAX_PROXY_ATTEMPTS     = 2;
 const MAX_JOIN_RETRIES       = 3;
-const BAD_PROXY_TIMEOUT      = 60 * 60 * 1000; // 1.5 Stunden
+const BAD_PROXY_TIMEOUT      = 60 * 60 * 1000; // 1 Stunde
 const PROXY_CHECK_INTERVAL   = 20 * 60 * 1000;
 const PROXY_TEST_TIMEOUT     = 8000;
+// FIX: 30 Min statt 15 Min — Mojang hat ein Rate-Limit auf den Session-Endpunkt,
+//      zu schnelle Retries führen wieder zum selben "Failed to obtain profile data" Fehler
+const AUTH_ERROR_DELAY       = 30 * 60 * 1000;
+const AUTH_MAX_RETRIES       = 3;
 
 const bots = {};
+// FIX: restartLock wurde bisher zu früh gelöscht (vor Bot-Initialisierung),
+//      was Race Conditions bei Reconnects verursacht hat
 const restartLock = new Set();
 const notifyCooldown = {};
 const badProxies = new Map(); // host → timestamp
+
+// FIX: Auth-Fehler Counter pro Account tracken
+const authErrorCount = {};
 
 const accountState = {};
 accounts.forEach((name, i) => {
@@ -51,6 +63,7 @@ accounts.forEach((name, i) => {
         proxyAttempts: 0,
         joinRetries: 0,
     };
+    authErrorCount[name] = 0;
 });
 
 const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1510411219654148167/l4a4xjAlMUq2-sZF8P3Lgta9ND2_q_77uVsuACuFgpwt9huPczS81NHLG_3LfpVrkbOw';
@@ -83,13 +96,46 @@ async function notify(msg, username = null, force = false) {
     }
 }
 
+// ─── FIX: Token-Cache löschen ─────────────────────────────────────────────────
+// Mineflayer/minecraft-protocol speichert Microsoft-Tokens lokal.
+// Wenn dieser Cache korrupt oder abgelaufen ist, schlägt Auth stumm fehl.
+// Lösung: Cache-Dateien vor dem Retry löschen, damit frischer Token geholt wird.
+
+function clearTokenCache(username) {
+    const baseDir = process.env.APPDATA || os.homedir();
+
+    // minecraft-protocol speichert Tokens hier:
+    const cachePaths = [
+        path.join(baseDir, '.minecraft', 'nmp-cache.json'),
+        // Fallback-Pfad auf Linux/macOS:
+        path.join(os.homedir(), '.minecraft', 'nmp-cache.json'),
+    ];
+
+    let deleted = false;
+    for (const p of cachePaths) {
+        try {
+            if (fs.existsSync(p)) {
+                fs.unlinkSync(p);
+                console.log(`[Auth] Token-Cache gelöscht für ${username}: ${p}`);
+                deleted = true;
+            }
+        } catch (e) {
+            console.warn(`[Auth] Cache konnte nicht gelöscht werden (${p}): ${e.message}`);
+        }
+    }
+
+    if (!deleted) {
+        console.log(`[Auth] Kein Token-Cache gefunden für ${username} — trotzdem Retry`);
+    }
+}
+
 // ─── Proxy Health System ──────────────────────────────────────────────────────
 
 function markProxyBad(host) {
     if (badProxies.has(host)) return;
     badProxies.set(host, Date.now());
-    console.log(`[✗] Proxy ${host} als bad markiert für 1.5 Stunden`);
-    notify(`🔴 Proxy \`${host}\` deaktiviert für 1.5 Stunden`, null, true);
+    console.log(`[✗] Proxy ${host} als bad markiert für 1 Stunde`);
+    notify(`🔴 Proxy \`${host}\` deaktiviert für 1 Stunde`, null, true);
 
     // Alle Bots die diesen Proxy nutzen neu verbinden
     for (const username of accounts) {
@@ -106,8 +152,7 @@ function isProxyBad(host) {
     const since = badProxies.get(host);
     if (Date.now() - since > BAD_PROXY_TIMEOUT) {
         badProxies.delete(host);
-        // failCount NICHT resetten — bleibt bei 0 nach erfolgreichem Bot-Connect
-        console.log(`[✓] Proxy ${host} wieder freigegeben nach 1.5h`);
+        console.log(`[✓] Proxy ${host} wieder freigegeben nach 1h`);
         notify(`🟢 Proxy \`${host}\` ist wieder verfügbar`, null, true);
         return false;
     }
@@ -253,6 +298,7 @@ async function processLoginQueue() {
 
 function createBot(username, onReady = null) {
     if (restartLock.has(username)) {
+        console.log(`[🔒] ${username} — restartLock aktiv, überspringe`);
         if (onReady) onReady();
         return;
     }
@@ -284,7 +330,6 @@ function createBot(username, onReady = null) {
                 if (err) {
                     console.log(`[!] Proxy ${proxy.host} Verbindungsfehler: ${err.message}`);
 
-                    // _failCount nur bei echten Bot-Verbindungsfehlern erhöhen
                     proxy._failCount = (proxy._failCount || 0) + 1;
                     console.log(`[!] Proxy ${proxy.host} Fehler #${proxy._failCount}`);
 
@@ -314,7 +359,9 @@ function createBot(username, onReady = null) {
         afkInterval: null,
     };
 
-    restartLock.delete(username);
+    // FIX: restartLock erst nach vollständiger Bot-Initialisierung freigeben,
+    //      nicht sofort — verhindert Race Conditions bei schnellen Reconnects
+    // (Lock wird jetzt in 'end', 'kicked', und Error-Handler freigegeben)
 
     let readyFired = false;
     function fireReady() {
@@ -333,6 +380,10 @@ function createBot(username, onReady = null) {
         accountState[username].proxyAttempts = 0;
         notifyCooldown[username] = 0;
         proxy._failCount = 0;
+        // FIX: Auth-Fehler Counter bei erfolgreichem Login zurücksetzen
+        authErrorCount[username] = 0;
+
+        restartLock.delete(username); // Lock freigeben nach erfolgreichem Spawn
 
         setTimeout(() => {
             if (bot.entity) bot.chat('/afk 35');
@@ -359,41 +410,74 @@ function createBot(username, onReady = null) {
         console.log(`[-] ${username} getrennt: ${reason}`);
         if (bots[username]?.afkInterval) clearInterval(bots[username].afkInterval);
         if (bots[username]) bots[username].isOnline = false;
+        restartLock.delete(username); // Lock freigeben
         fireReady();
         scheduleReconnect(username, proxyFailed);
     });
 
     bot.on('kicked', (reason) => {
         console.log(`[!] ${username} gekickt: ${reason}`);
+        if (bots[username]?.afkInterval) clearInterval(bots[username].afkInterval);
+        if (bots[username]) bots[username].isOnline = false;
+        restartLock.delete(username); // Lock freigeben
         notify(
             `🚫 **${username}** gekickt von **${HOST}**!\nGrund: \`${reason}\`\n→ Reconnect in ${RECONNECT_DELAY_NORMAL / 60000} Min`,
             username, true
         );
         setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
+        fireReady();
     });
 
     bot.on('error', (err) => {
-    console.log(`[!] ${username} Fehler: ${err.message}`);
+        console.log(`[!] ${username} Fehler: ${err.message}`);
 
-    if (err.message.includes('Failed to obtain profile data')) {
-        console.log(`[💤] ${username} — Account-Fehler, warte 15 Min...`);
-        notify(
-            `💤 **${username}** — Account-Fehler (Minecraft Profil)!\n→ Warte 15 Min vor erneutem Versuch`,
-            username, true
-        );
+        // FIX: "Failed to obtain profile data" Behandlung
+        // Ursachen: abgelaufener/korrupter Token-Cache, Mojang Session-API Rate-Limit
+        // Lösung:   1. Token-Cache löschen (damit frischer Token geholt wird)
+        //           2. 30 Min warten (Rate-Limit abklingen lassen)
+        //           3. Max. 3 Versuche, dann langer Cooldown
+        if (err.message.includes('Failed to obtain profile data')) {
+            authErrorCount[username] = (authErrorCount[username] || 0) + 1;
+            const attempt = authErrorCount[username];
 
-        // Nicht scheduleReconnect aufrufen — direkt 15 Min warten
-        setTimeout(() => createBot(username), 15 * 60 * 1000);
+            console.log(`[💤] ${username} — Auth-Fehler #${attempt}, lösche Token-Cache...`);
+            clearTokenCache(username);
 
-        // fireReady damit die Login-Queue weiterläuft
+            if (attempt >= AUTH_MAX_RETRIES) {
+                const waitMin = 60;
+                console.log(`[💤] ${username} — ${attempt} Auth-Fehler in Folge, warte ${waitMin} Min`);
+                notify(
+                    `💤 **${username}** — Wiederholter Auth-Fehler (${attempt}x)!\n→ Account eventuell gesperrt? Warte **${waitMin} Min**`,
+                    username, true
+                );
+                restartLock.delete(username);
+                setTimeout(() => {
+                    authErrorCount[username] = 0;
+                    createBot(username);
+                }, waitMin * 60 * 1000);
+            } else {
+                const waitMin = Math.round(AUTH_ERROR_DELAY / 60000);
+                console.log(`[💤] ${username} — Warte ${waitMin} Min (Versuch ${attempt}/${AUTH_MAX_RETRIES})`);
+                notify(
+                    `💤 **${username}** — Auth-Fehler (Minecraft Profil, Versuch ${attempt}/${AUTH_MAX_RETRIES})!\n→ Token-Cache geleert, Retry in **${waitMin} Min**`,
+                    username, true
+                );
+                restartLock.delete(username);
+                setTimeout(() => createBot(username), AUTH_ERROR_DELAY);
+            }
+
+            fireReady();
+            return;
+        }
+
+        restartLock.delete(username); // Bei anderen Fehlern auch Lock freigeben
         fireReady();
-        return;
-    }
+    });
 
-    fireReady();
-});
-
-    setTimeout(() => fireReady(), 60000);
+    setTimeout(() => {
+        restartLock.delete(username); // Fallback: Lock nach 60s auf jeden Fall freigeben
+        fireReady();
+    }, 60000);
 }
 
 // ─── Start ────────────────────────────────────────────────────────────────────
@@ -421,7 +505,8 @@ setInterval(() => {
 
         const timeSince = Math.round((now - data.lastSeen) / 1000);
         const status = data.isOnline ? '✅ online' : '❌ offline';
-        console.log(`  ${status} | ${username} | Proxy: ${data.proxy} | Aktivität: ${timeSince}s | Retries: ${state.joinRetries}`);
+        const authErr = authErrorCount[username] > 0 ? ` | AuthErr: ${authErrorCount[username]}` : '';
+        console.log(`  ${status} | ${username} | Proxy: ${data.proxy} | Aktivität: ${timeSince}s | Retries: ${state.joinRetries}${authErr}`);
     }
 
     const badList = [...badProxies.keys()];
@@ -441,7 +526,7 @@ setInterval(() => {
         if (data?.isOnline) {
             online.push(`✅ ${username} — Proxy: \`${data.proxy}\``);
         } else {
-            offline.push(`❌ ${username} (Retries: ${state.joinRetries})`);
+            offline.push(`❌ ${username} (Retries: ${state.joinRetries}, AuthErr: ${authErrorCount[username]})`);
         }
     }
 
