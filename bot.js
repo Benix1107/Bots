@@ -9,12 +9,10 @@ const PORT = 25565;
 
 process.on('uncaughtException', (err) => {
     console.log(`[💥] Uncaught Exception: ${err.message}`);
-    notify(`💥 **Script Fehler:** \`${err.message}\``, null, false, true);
 });
 
 process.on('unhandledRejection', (reason) => {
     console.log(`[💥] Unhandled Rejection: ${reason}`);
-    notify(`💥 **Script Rejection:** \`${reason}\``, null, false, true);
 });
 
 const accounts = [
