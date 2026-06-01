@@ -214,7 +214,6 @@ function markProxyBad(host) {
     if (badProxies.has(host)) return;
     badProxies.set(host, Date.now());
     console.log(`[✗] Proxy ${host} deaktiviert für 1 Stunde`);
-    notify(`🔴 Proxy \`${host}\` deaktiviert für 1h`, null, false, true);
 
     for (const username of accounts) {
         const data = bots[username];
@@ -330,10 +329,6 @@ function scheduleReconnect(username, proxyFailed = false) {
     if (state.joinRetries > MAX_JOIN_RETRIES) {
         const waitMin = Math.round(RECONNECT_DELAY_RETRY / 60000);
         console.log(`[⏳] ${username} — ${state.joinRetries}. Fehlversuch, warte ${waitMin} Min`);
-        notify(
-            `⏳ **${username}** — ${state.joinRetries}x fehlgeschlagen, warte ${waitMin} Min`,
-            username, false, true
-        );
         setTimeout(() => createBot(username), RECONNECT_DELAY_RETRY);
     } else {
         console.log(`[⏳] ${username} — Reconnect in 5 Min (Versuch ${state.joinRetries}/${MAX_JOIN_RETRIES})`);
@@ -486,7 +481,6 @@ function createBot(username, onReady = null) {
         }
         if (!offlineSince[username]) offlineSince[username] = Date.now();
         restartLock.delete(username);
-        notify(`🚫 **${username}** gekickt: \`${reason}\``, username, false, true);
         setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
         fireReady();
     });
@@ -504,10 +498,6 @@ function createBot(username, onReady = null) {
             restartLock.delete(username);
 
             if (attempt >= AUTH_MAX_RETRIES) {
-                notify(
-                    `💤 **${username}** — Auth-Fehler ${attempt}x, warte 60 Min`,
-                    username, false, true
-                );
                 setTimeout(() => {
                     authErrorCount[username] = 0;
                     createBot(username);
@@ -516,10 +506,6 @@ function createBot(username, onReady = null) {
                 const delayMs = Math.min(5 * 60 * 1000 * Math.pow(3, attempt - 1), AUTH_ERROR_DELAY);
                 const delayMin = Math.round(delayMs / 60000);
                 console.log(`[💤] ${username} — Warte ${delayMin} Min (Auth Backoff #${attempt})`);
-                notify(
-                    `💤 **${username}** — Auth-Fehler #${attempt}, Retry in ${delayMin} Min`,
-                    username, false, true
-                );
                 setTimeout(() => createBot(username), delayMs);
             }
 
