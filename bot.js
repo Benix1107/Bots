@@ -7,54 +7,145 @@ const os = require('os');
 const HOST = 'donutsmp.net';
 const PORT = 25565;
 
-// Ganz oben hinzufügen — fängt unerwartete Crashes ab
 process.on('uncaughtException', (err) => {
     console.log(`[💥] Uncaught Exception: ${err.message}`);
-    notify(`💥 **Script Fehler:** \`${err.message}\``, null, true);
+    notify(`💥 **Script Fehler:** \`${err.message}\``, null, false, true);
 });
 
 process.on('unhandledRejection', (reason) => {
     console.log(`[💥] Unhandled Rejection: ${reason}`);
-    notify(`💥 **Script Rejection:** \`${reason}\``, null, true);
+    notify(`💥 **Script Rejection:** \`${reason}\``, null, false, true);
 });
 
 const accounts = [
-    'NebelBenix', 'Aawaz3', 'Saugroboter3', 'Oafka40'
+    'NebelBenix', 'alkaner12', 'Dihloco', 'meloupup', 'DrDihNut', 'Aawaz3', 'Saugroboter3', 'Oafka40', 'FullestFox'
 ];
 
 const proxies = [
-    { host: '167.71.32.51',   port: 1080, type: 5, username: '', password: '' },
-    //{ host: '192.252.214.17', port: 4145, type: 5, username: '', password: '' },
-    //{ host: '67.201.35.145',  port: 4145, type: 5, username: '', password: '' },
-    //{ host: '174.75.211.193', port: 4145, type: 5, username: '', password: '' },
-    { host: '72.223.188.67',  port: 4145, type: 5, username: '', password: '' },
-    { host: '72.207.33.64',   port: 4145, type: 5, username: '', password: '' },
+    { host: '167.71.32.51',  port: 1080, type: 5, username: '', password: '' },
+    { host: '194.39.33.1', port: 5710, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.87', port: 6705, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.203', port: 6850, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.26', port: 7097, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.57.76.118', port: 5690, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.30', port: 6103, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.69', port: 5642, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.28', port: 6646, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.74', port: 6728, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.4', port: 6658, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.238', port: 5947, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.230', port: 6876, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.67', port: 7439, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.75', port: 5784, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.243', port: 6861, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.140', port: 7512, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '92.119.182.209', port: 6854, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.10', port: 6628, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.85', port: 6739, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.11', port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.180', port: 5753, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.191', port: 6264, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.117', port: 6791, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.57.76.2', port: 5574, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.177.59', port: 5432, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '92.119.182.179', port: 6824, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.137', port: 7009, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.234', port: 6307, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.231', port: 7103, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.94', port: 6768, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.189', port: 6843, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.188', port: 7060, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.58', port: 6460, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.149', port: 7021, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.22.234.49', port: 7899, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.142', port: 6544, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.16', port: 6670, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.166', port: 5875, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.63', port: 6135, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.243', port: 6897, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.147.186.86', port: 6959, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.236', port: 6854, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.195', port: 6869, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.127', port: 6781, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.2', port: 7073, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.249', port: 6895, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.79', port: 5788, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.195', port: 267, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.22.234.212', port: 8062, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.147.186.209', port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.177.139', port: 5512, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.226', port: 6873, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.205', port: 7077, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.148', port: 6794, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.113', port: 7485, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.185', port: 6832, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.179.137', port: 5509, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.242', port: 6888, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.147.186.183', port: 7056, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.185', port: 5894, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '92.119.182.216', port: 6861, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.249', port: 6903, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.170', port: 5879, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.229', port: 6903, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.99', port: 5808, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.90', port: 6764, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.151', port: 6223, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.233', port: 7304, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.179.193', port: 5565, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.249', port: 6322, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.144', port: 6216, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.54', port: 6127, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.112', port: 6766, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.138', port: 5711, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.247', port: 6319, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.49', port: 6696, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.66', port: 5639, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.97', port: 6499, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.22.234.85', port: 7935, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.22.234.62', port: 7912, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.179.141', port: 5513, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.250', port: 6904, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.91', port: 6163, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.158', port: 7229, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.22', port: 6668, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.222', port: 5795, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.78', port: 7149, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.123', port: 6195, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.59.10.43', port: 5614, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.179.66', port: 5438, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.75', port: 5648, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.59.10.213', port: 5784, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.89', port: 6491, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.210', port: 6857, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.200', port: 6272, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.31', port: 6433, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.214', port: 6286, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.177.251', port: 5624, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.198', port: 7570, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.180', port: 6582, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' }
 ];
 
-const RECONNECT_DELAY_NORMAL = 5 * 60 * 1000;
-const RECONNECT_DELAY_RETRY  = 60 * 60 * 1000;
-const PROXY_SWITCH_DELAY     = 15 * 60 * 1000;
-const LOGIN_DELAY            = 30 * 1000;
-const NOTIFY_COOLDOWN_MS     = 5 * 60 * 1000;
-const MAX_PROXY_ATTEMPTS     = 2;
-const MAX_JOIN_RETRIES       = 3;
-const BAD_PROXY_TIMEOUT      = 60 * 60 * 1000; // 1 Stunde
-const PROXY_CHECK_INTERVAL   = 20 * 60 * 1000;
-const PROXY_TEST_TIMEOUT     = 8000;
-// FIX: 30 Min statt 15 Min — Mojang hat ein Rate-Limit auf den Session-Endpunkt,
-//      zu schnelle Retries führen wieder zum selben "Failed to obtain profile data" Fehler
-const AUTH_ERROR_DELAY       = 30 * 60 * 1000;
-const AUTH_MAX_RETRIES       = 3;
+const RECONNECT_DELAY_NORMAL  = 5 * 60 * 1000;
+const RECONNECT_DELAY_RETRY   = 60 * 60 * 1000;
+const PROXY_SWITCH_DELAY      = 15 * 60 * 1000;
+const LOGIN_DELAY             = 30 * 1000;
+const NOTIFY_COOLDOWN_MS      = 30 * 60 * 1000;
+const MAX_PROXY_ATTEMPTS      = 2;
+const MAX_JOIN_RETRIES        = 3;
+const BAD_PROXY_TIMEOUT       = 60 * 60 * 1000;
+const PROXY_CHECK_INTERVAL    = 20 * 60 * 1000;
+const PROXY_TEST_TIMEOUT      = 8000;
+const AUTH_ERROR_DELAY        = 30 * 60 * 1000;
+const AUTH_MAX_RETRIES        = 3;
+const STATUS_UPDATE_INTERVAL  = 2 * 60 * 60 * 1000;
+const CRITICAL_EVENTS_ONLY    = true;
 
 const bots = {};
-// FIX: restartLock wurde bisher zu früh gelöscht (vor Bot-Initialisierung),
-//      was Race Conditions bei Reconnects verursacht hat
 const restartLock = new Set();
 const notifyCooldown = {};
-const badProxies = new Map(); // host → timestamp
-
-// FIX: Auth-Fehler Counter pro Account tracken
+const badProxies = new Map();
 const authErrorCount = {};
+const offlineSince = {};
 
 const accountState = {};
 accounts.forEach((name, i) => {
@@ -64,14 +155,17 @@ accounts.forEach((name, i) => {
         joinRetries: 0,
     };
     authErrorCount[name] = 0;
+    offlineSince[name] = Date.now();
 });
 
 const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1510411219654148167/l4a4xjAlMUq2-sZF8P3Lgta9ND2_q_77uVsuACuFgpwt9huPczS81NHLG_3LfpVrkbOw';
 
 // ─── Notify ───────────────────────────────────────────────────────────────────
 
-async function notify(msg, username = null, force = false) {
-    if (username && !force) {
+async function notify(msg, username = null, force = false, critical = false) {
+    if (CRITICAL_EVENTS_ONLY && !critical && !force) return;
+
+    if (username && !force && !critical) {
         const last = notifyCooldown[username] || 0;
         if (Date.now() - last < NOTIFY_COOLDOWN_MS) return;
         notifyCooldown[username] = Date.now();
@@ -85,10 +179,7 @@ async function notify(msg, username = null, force = false) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                content:
-                    '----------------------------------------------------------------------\n' +
-                    `🔔 **Bot Benachrichtigung**\n${msg}\n🕐 ${time}` +
-                    '\n----------------------------------------------------------------------'
+                content: `🔔 ${msg} — 🕐 ${time}`
             })
         });
     } catch (err) {
@@ -96,36 +187,24 @@ async function notify(msg, username = null, force = false) {
     }
 }
 
-// ─── FIX: Token-Cache löschen ─────────────────────────────────────────────────
-// Mineflayer/minecraft-protocol speichert Microsoft-Tokens lokal.
-// Wenn dieser Cache korrupt oder abgelaufen ist, schlägt Auth stumm fehl.
-// Lösung: Cache-Dateien vor dem Retry löschen, damit frischer Token geholt wird.
+// ─── Token Cache ──────────────────────────────────────────────────────────────
 
 function clearTokenCache(username) {
     const baseDir = process.env.APPDATA || os.homedir();
-
-    // minecraft-protocol speichert Tokens hier:
     const cachePaths = [
         path.join(baseDir, '.minecraft', 'nmp-cache.json'),
-        // Fallback-Pfad auf Linux/macOS:
         path.join(os.homedir(), '.minecraft', 'nmp-cache.json'),
     ];
 
-    let deleted = false;
     for (const p of cachePaths) {
         try {
             if (fs.existsSync(p)) {
                 fs.unlinkSync(p);
-                console.log(`[Auth] Token-Cache gelöscht für ${username}: ${p}`);
-                deleted = true;
+                console.log(`[Auth] Token-Cache gelöscht: ${p}`);
             }
         } catch (e) {
-            console.warn(`[Auth] Cache konnte nicht gelöscht werden (${p}): ${e.message}`);
+            console.warn(`[Auth] Cache konnte nicht gelöscht werden: ${e.message}`);
         }
-    }
-
-    if (!deleted) {
-        console.log(`[Auth] Kein Token-Cache gefunden für ${username} — trotzdem Retry`);
     }
 }
 
@@ -134,10 +213,9 @@ function clearTokenCache(username) {
 function markProxyBad(host) {
     if (badProxies.has(host)) return;
     badProxies.set(host, Date.now());
-    console.log(`[✗] Proxy ${host} als bad markiert für 1 Stunde`);
-    notify(`🔴 Proxy \`${host}\` deaktiviert für 1 Stunde`, null, true);
+    console.log(`[✗] Proxy ${host} deaktiviert für 1 Stunde`);
+    notify(`🔴 Proxy \`${host}\` deaktiviert für 1h`, null, false, true);
 
-    // Alle Bots die diesen Proxy nutzen neu verbinden
     for (const username of accounts) {
         const data = bots[username];
         if (data && data.proxy === host && data.isOnline) {
@@ -153,13 +231,11 @@ function isProxyBad(host) {
     if (Date.now() - since > BAD_PROXY_TIMEOUT) {
         badProxies.delete(host);
         console.log(`[✓] Proxy ${host} wieder freigegeben nach 1h`);
-        notify(`🟢 Proxy \`${host}\` ist wieder verfügbar`, null, true);
         return false;
     }
     return true;
 }
 
-// Proxy Check — NUR für Statusanzeige, beeinflusst _failCount NICHT
 function testProxy(proxy) {
     return new Promise((resolve) => {
         const timer = setTimeout(() => resolve(false), PROXY_TEST_TIMEOUT);
@@ -186,25 +262,26 @@ function testProxy(proxy) {
     });
 }
 
-// Nur zur Anzeige — kein Einfluss auf badProxies oder _failCount
-async function checkAllProxies(silent = false) {
-    if (!silent) console.log('\n[🔍] Proxy Status Check (nur Anzeige)...');
+async function checkAllProxies(silent = true) {
+    if (!silent) console.log('\n[🔍] Proxy Status Check...');
 
     for (const proxy of proxies) {
+        isProxyBad(proxy.host); // Timeout prüfen
+
         if (isProxyBad(proxy.host)) {
             const since = badProxies.get(proxy.host);
             const remaining = Math.round((BAD_PROXY_TIMEOUT - (Date.now() - since)) / 60000);
-            if (!silent) console.log(`  ⏳ ${proxy.host}:${proxy.port} — bad für noch ~${remaining} Min`);
+            if (!silent) console.log(`  ⏳ ${proxy.host} — gesperrt noch ~${remaining} Min`);
             continue;
         }
 
         const ok = await testProxy(proxy);
-        if (!silent) console.log(`  ${ok ? '✅' : '⚠️'} ${proxy.host}:${proxy.port}${!ok ? ' (TCP-Test fehlgeschlagen, aber noch nicht bad)' : ''}`);
+        if (!silent) console.log(`  ${ok ? '✅' : '⚠️'} ${proxy.host}:${proxy.port}`);
     }
 
     if (!silent) {
         const active = proxies.filter(p => !isProxyBad(p.host)).length;
-        console.log(`[🔍] Check fertig — ${active}/${proxies.length} nicht gesperrt\n`);
+        console.log(`[🔍] Check fertig — ${active}/${proxies.length} aktiv\n`);
     }
 }
 
@@ -216,7 +293,6 @@ function findBestProxy(username) {
     const fixed = proxies[state.currentProxyIdx];
     if (!isProxyBad(fixed.host)) return fixed;
 
-    // Fixer Proxy ist bad → suche Alternative
     for (let i = 1; i < proxies.length; i++) {
         const idx = (state.currentProxyIdx + i) % proxies.length;
         if (!isProxyBad(proxies[idx].host)) {
@@ -238,17 +314,11 @@ function scheduleReconnect(username, proxyFailed = false) {
     const state = accountState[username];
 
     if (proxyFailed) {
-        notify(
-            `🔄 **${username}** — Proxy-Problem!\n→ Warte 15 Min, dann Proxy-Wechsel`,
-            username, true
-        );
+        console.log(`[🔄] ${username} — Proxy-Problem, warte 15 Min`);
 
         setTimeout(() => {
             const newProxy = findBestProxy(username);
-            notify(
-                `🔀 **${username}** versucht Proxy \`${newProxy.host}:${newProxy.port}\``,
-                username, true
-            );
+            console.log(`[🔀] ${username} versucht Proxy ${newProxy.host}`);
             createBot(username);
         }, PROXY_SWITCH_DELAY);
 
@@ -259,17 +329,14 @@ function scheduleReconnect(username, proxyFailed = false) {
 
     if (state.joinRetries > MAX_JOIN_RETRIES) {
         const waitMin = Math.round(RECONNECT_DELAY_RETRY / 60000);
+        console.log(`[⏳] ${username} — ${state.joinRetries}. Fehlversuch, warte ${waitMin} Min`);
         notify(
-            `⏳ **${username}** — ${state.joinRetries}. Fehlversuch!\n→ Warte **${waitMin} Min**`,
-            username, true
+            `⏳ **${username}** — ${state.joinRetries}x fehlgeschlagen, warte ${waitMin} Min`,
+            username, false, true
         );
         setTimeout(() => createBot(username), RECONNECT_DELAY_RETRY);
     } else {
-        const waitMin = Math.round(RECONNECT_DELAY_NORMAL / 60000);
-        notify(
-            `❌ **${username}** offline!\n→ Reconnect in ${waitMin} Min (Versuch ${state.joinRetries}/${MAX_JOIN_RETRIES})`,
-            username
-        );
+        console.log(`[⏳] ${username} — Reconnect in 5 Min (Versuch ${state.joinRetries}/${MAX_JOIN_RETRIES})`);
         setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
     }
 }
@@ -298,7 +365,7 @@ async function processLoginQueue() {
 
 function createBot(username, onReady = null) {
     if (restartLock.has(username)) {
-        console.log(`[🔒] ${username} — restartLock aktiv, überspringe`);
+        console.log(`[🔒] ${username} — restartLock aktiv`);
         if (onReady) onReady();
         return;
     }
@@ -328,10 +395,8 @@ function createBot(username, onReady = null) {
                 destination: { host: HOST, port: PORT },
             }, (err, info) => {
                 if (err) {
-                    console.log(`[!] Proxy ${proxy.host} Verbindungsfehler: ${err.message}`);
-
+                    console.log(`[!] Proxy ${proxy.host} Fehler: ${err.message}`);
                     proxy._failCount = (proxy._failCount || 0) + 1;
-                    console.log(`[!] Proxy ${proxy.host} Fehler #${proxy._failCount}`);
 
                     if (proxy._failCount >= 2) {
                         markProxyBad(proxy.host);
@@ -354,14 +419,11 @@ function createBot(username, onReady = null) {
     bots[username] = {
         bot,
         lastSeen: Date.now(),
+        onlineSince: null,
         isOnline: false,
         proxy: proxy.host,
         afkInterval: null,
     };
-
-    // FIX: restartLock erst nach vollständiger Bot-Initialisierung freigeben,
-    //      nicht sofort — verhindert Race Conditions bei schnellen Reconnects
-    // (Lock wird jetzt in 'end', 'kicked', und Error-Handler freigegeben)
 
     let readyFired = false;
     function fireReady() {
@@ -375,24 +437,20 @@ function createBot(username, onReady = null) {
         console.log(`[✓] ${username} online via ${proxy.host}`);
         bots[username].isOnline = true;
         bots[username].lastSeen = Date.now();
+        bots[username].onlineSince = Date.now();
+        offlineSince[username] = null;
 
         accountState[username].joinRetries = 0;
         accountState[username].proxyAttempts = 0;
         notifyCooldown[username] = 0;
         proxy._failCount = 0;
-        // FIX: Auth-Fehler Counter bei erfolgreichem Login zurücksetzen
         authErrorCount[username] = 0;
 
-        restartLock.delete(username); // Lock freigeben nach erfolgreichem Spawn
+        restartLock.delete(username);
 
         setTimeout(() => {
             if (bot.entity) bot.chat('/afk 35');
         }, 3000);
-
-        notify(
-            `✅ **${username}** online auf **${HOST}**!\nProxy: \`${proxy.host}:${proxy.port}\``,
-            username, true
-        );
 
         if (bots[username].afkInterval) clearInterval(bots[username].afkInterval);
         bots[username].afkInterval = setInterval(() => {
@@ -409,8 +467,12 @@ function createBot(username, onReady = null) {
     bot.on('end', (reason) => {
         console.log(`[-] ${username} getrennt: ${reason}`);
         if (bots[username]?.afkInterval) clearInterval(bots[username].afkInterval);
-        if (bots[username]) bots[username].isOnline = false;
-        restartLock.delete(username); // Lock freigeben
+        if (bots[username]) {
+            bots[username].isOnline = false;
+            bots[username].onlineSince = null;
+        }
+        if (!offlineSince[username]) offlineSince[username] = Date.now();
+        restartLock.delete(username);
         fireReady();
         scheduleReconnect(username, proxyFailed);
     });
@@ -418,12 +480,13 @@ function createBot(username, onReady = null) {
     bot.on('kicked', (reason) => {
         console.log(`[!] ${username} gekickt: ${reason}`);
         if (bots[username]?.afkInterval) clearInterval(bots[username].afkInterval);
-        if (bots[username]) bots[username].isOnline = false;
-        restartLock.delete(username); // Lock freigeben
-        notify(
-            `🚫 **${username}** gekickt von **${HOST}**!\nGrund: \`${reason}\`\n→ Reconnect in ${RECONNECT_DELAY_NORMAL / 60000} Min`,
-            username, true
-        );
+        if (bots[username]) {
+            bots[username].isOnline = false;
+            bots[username].onlineSince = null;
+        }
+        if (!offlineSince[username]) offlineSince[username] = Date.now();
+        restartLock.delete(username);
+        notify(`🚫 **${username}** gekickt: \`${reason}\``, username, false, true);
         setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
         fireReady();
     });
@@ -431,11 +494,6 @@ function createBot(username, onReady = null) {
     bot.on('error', (err) => {
         console.log(`[!] ${username} Fehler: ${err.message}`);
 
-        // FIX: "Failed to obtain profile data" Behandlung
-        // Ursachen: abgelaufener/korrupter Token-Cache, Mojang Session-API Rate-Limit
-        // Lösung:   1. Token-Cache löschen (damit frischer Token geholt wird)
-        //           2. 30 Min warten (Rate-Limit abklingen lassen)
-        //           3. Max. 3 Versuche, dann langer Cooldown
         if (err.message.includes('Failed to obtain profile data')) {
             authErrorCount[username] = (authErrorCount[username] || 0) + 1;
             const attempt = authErrorCount[username];
@@ -443,29 +501,25 @@ function createBot(username, onReady = null) {
             console.log(`[💤] ${username} — Auth-Fehler #${attempt}, lösche Token-Cache...`);
             clearTokenCache(username);
 
+            restartLock.delete(username);
+
             if (attempt >= AUTH_MAX_RETRIES) {
-                const waitMin = 60;
-                console.log(`[💤] ${username} — ${attempt} Auth-Fehler in Folge, warte ${waitMin} Min`);
                 notify(
-                    `💤 **${username}** — Wiederholter Auth-Fehler (${attempt}x)!\n→ Account eventuell gesperrt? Warte **${waitMin} Min**`,
-                    username, true
+                    `💤 **${username}** — Auth-Fehler ${attempt}x, warte 60 Min`,
+                    username, false, true
                 );
-                restartLock.delete(username);
                 setTimeout(() => {
                     authErrorCount[username] = 0;
                     createBot(username);
-                }, waitMin * 60 * 1000);
+                }, 60 * 60 * 1000);
             } else {
-                const waitMin = Math.round(AUTH_ERROR_DELAY / 60000);
-                console.log(`[💤] ${username} — Warte ${waitMin} Min (Versuch ${attempt}/${AUTH_MAX_RETRIES})`);
-                notify(
-                    `💤 **${username}** — Auth-Fehler (Minecraft Profil, Versuch ${attempt}/${AUTH_MAX_RETRIES})!\n→ Token-Cache geleert, Retry in **${waitMin} Min**`,
-                    username, true
-                );
-                restartLock.delete(username);
-                const delayMs = Math.min(5 * 60 * 1000 * Math.pow(3, attempt - 1), 30 * 60 * 1000);
+                const delayMs = Math.min(5 * 60 * 1000 * Math.pow(3, attempt - 1), AUTH_ERROR_DELAY);
                 const delayMin = Math.round(delayMs / 60000);
-                console.log(`[💤] ${username} — Warte ${delayMin} Min (Backoff Stufe ${attempt})`);
+                console.log(`[💤] ${username} — Warte ${delayMin} Min (Auth Backoff #${attempt})`);
+                notify(
+                    `💤 **${username}** — Auth-Fehler #${attempt}, Retry in ${delayMin} Min`,
+                    username, false, true
+                );
                 setTimeout(() => createBot(username), delayMs);
             }
 
@@ -473,25 +527,25 @@ function createBot(username, onReady = null) {
             return;
         }
 
-        restartLock.delete(username); // Bei anderen Fehlern auch Lock freigeben
+        restartLock.delete(username);
         fireReady();
     });
 
     setTimeout(() => {
-        restartLock.delete(username); // Fallback: Lock nach 60s auf jeden Fall freigeben
+        restartLock.delete(username);
         fireReady();
     }, 60000);
 }
 
 // ─── Start ────────────────────────────────────────────────────────────────────
 
-checkAllProxies().then(() => {
+checkAllProxies(true).then(() => {
     processLoginQueue();
 });
 
-setInterval(() => checkAllProxies(), PROXY_CHECK_INTERVAL);
+setInterval(() => checkAllProxies(true), PROXY_CHECK_INTERVAL);
 
-// ─── Health Check alle 5 Min ──────────────────────────────────────────────────
+// ─── Health Check alle 5 Min (nur Console) ───────────────────────────────────
 
 setInterval(() => {
     const now = Date.now();
@@ -517,35 +571,34 @@ setInterval(() => {
     console.log('-----------------------------------\n');
 }, 5 * 60 * 1000);
 
-// ─── Status Update alle 30 Min ───────────────────────────────────────────────
+// ─── Status Update alle 2 Stunden (kompakt) ──────────────────────────────────
 
 setInterval(() => {
-    const online = [];
-    const offline = [];
+    const now = Date.now();
+    const lines = [`📊 **Status** — ${new Date().toLocaleTimeString('de-DE')}\n`];
 
     for (const username of accounts) {
         const data = bots[username];
         const state = accountState[username];
-        if (data?.isOnline) {
-            online.push(`✅ ${username} — Proxy: \`${data.proxy}\``);
+
+        if (data?.isOnline && data.onlineSince) {
+            const onlineMin = Math.round((now - data.onlineSince) / 60000);
+            lines.push(`✅ ${username} — online seit ${onlineMin}m`);
         } else {
-            offline.push(`❌ ${username} (Retries: ${state.joinRetries}, AuthErr: ${authErrorCount[username]})`);
+            const offMin = offlineSince[username]
+                ? Math.round((now - offlineSince[username]) / 60000)
+                : '?';
+            lines.push(`❌ ${username} — offline seit ${offMin}m (Retries: ${state.joinRetries})`);
         }
     }
 
     const badList = [...badProxies.keys()];
+    if (badList.length > 0) lines.push(`\n🔴 Bad Proxies: ${badList.join(', ')}`);
 
-    const lines = [
-        `📊 **Status Update** — ${new Date().toLocaleTimeString('de-DE')}`,
-        ``,
-        `**Online (${online.length}/${accounts.length}):**`,
-        online.length > 0 ? online.join('\n') : '_Niemand online_',
-        ``,
-        `**Offline (${offline.length}/${accounts.length}):**`,
-        offline.length > 0 ? offline.join('\n') : '_Alle online_ 🎉',
-        ``,
-        `**Deaktivierte Proxies:** ${badList.length > 0 ? badList.join(', ') : 'keine'}`,
-    ];
+    fetch(DISCORD_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: lines.join('\n') })
+    }).catch(() => {});
 
-    notify(lines.join('\n'), null, true);
-}, 30 * 60 * 1000);
+}, STATUS_UPDATE_INTERVAL);
