@@ -463,7 +463,10 @@ function createBot(username, onReady = null) {
                     username, true
                 );
                 restartLock.delete(username);
-                setTimeout(() => createBot(username), AUTH_ERROR_DELAY);
+                const delayMs = Math.min(5 * 60 * 1000 * Math.pow(3, attempt - 1), 30 * 60 * 1000);
+                const delayMin = Math.round(delayMs / 60000);
+                console.log(`[💤] ${username} — Warte ${delayMin} Min (Backoff Stufe ${attempt})`);
+                setTimeout(() => createBot(username), delayMs);
             }
 
             fireReady();
