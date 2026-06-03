@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const HOST = 'donutsmp.net';
+const HOST = 'Hugosmp.net';
 const PORT = 25565;
 
 process.on('uncaughtException', (err) => {
@@ -441,7 +441,7 @@ function createBot(username, onReady = null) {
         restartLock.delete(username);
 
         setTimeout(() => {
-            if (bot.entity) bot.chat('/afk 35');
+            if (bot.entity) bot.chat('/afk');
         }, 3000);
 
         if (bots[username].afkInterval) clearInterval(bots[username].afkInterval);
