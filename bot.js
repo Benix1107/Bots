@@ -373,7 +373,7 @@ function createBot(username, onReady = null) {
         port: PORT,
         username,
         auth: 'microsoft',
-        version: '1.21.1',
+        version: '1.21.4',
         connect: (client) => {
             SocksClient.createConnection({
                 proxy: {
