@@ -20,7 +20,6 @@ const accounts = [
 ];
 
 const proxies = [
-    { host: '194.39.33.1', port: 5710, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
     { host: '77.83.233.87', port: 6705, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
     { host: '172.98.168.203', port: 6850, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
     { host: '206.232.70.26', port: 7097, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
