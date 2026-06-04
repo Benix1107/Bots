@@ -262,7 +262,7 @@ async function checkAllProxies(silent = true) {
     if (!silent) console.log('\n[🔍] Proxy Status Check...');
 
     for (const proxy of proxies) {
-        isProxyBad(proxy.host); // Timeout prüfen
+        isProxyBad(proxy.host);
 
         if (isProxyBad(proxy.host)) {
             const since = badProxies.get(proxy.host);
@@ -311,13 +311,11 @@ function scheduleReconnect(username, proxyFailed = false) {
 
     if (proxyFailed) {
         console.log(`[🔄] ${username} — Proxy-Problem, warte 15 Min`);
-
         setTimeout(() => {
             const newProxy = findBestProxy(username);
             console.log(`[🔀] ${username} versucht Proxy ${newProxy.host}`);
             createBot(username);
         }, PROXY_SWITCH_DELAY);
-
         return;
     }
 
@@ -408,6 +406,16 @@ function createBot(username, onReady = null) {
 
     const bot = mineflayer.createBot(botOptions);
 
+    // ─── Resource Pack Fix für HugoSMP ───────────────────────────────────────
+    // HugoSMP hängt im Configuration State bis das Resource Pack bestätigt wird
+    bot._client.on('add_resource_pack', (data) => {
+        console.log(`[RP ${username}] Resource Pack → sende successfully_loaded`);
+        bot._client.write('resource_pack_receive', {
+            uuid: data.uuid,
+            result: 0 // 0 = successfully_loaded
+        });
+    });
+
     bots[username] = {
         bot,
         lastSeen: Date.now(),
@@ -441,7 +449,7 @@ function createBot(username, onReady = null) {
         restartLock.delete(username);
 
         setTimeout(() => {
-            if (bot.entity) bot.chat('/afk');
+            if (bot.entity) bot.chat('/afk 35');
         }, 3000);
 
         if (bots[username].afkInterval) clearInterval(bots[username].afkInterval);
@@ -528,7 +536,7 @@ checkAllProxies(true).then(() => {
 
 setInterval(() => checkAllProxies(true), PROXY_CHECK_INTERVAL);
 
-// ─── Health Check alle 5 Min (nur Console) ───────────────────────────────────
+// ─── Health Check alle 5 Min ─────────────────────────────────────────────────
 
 setInterval(() => {
     const now = Date.now();
@@ -554,7 +562,7 @@ setInterval(() => {
     console.log('-----------------------------------\n');
 }, 5 * 60 * 1000);
 
-// ─── Status Update alle 2 Stunden (
+// ─── Status Update alle 2 Stunden ────────────────────────────────────────────
 
 setInterval(() => {
     const now = Date.now();
