@@ -405,6 +405,16 @@ function createBot(username, onReady = null) {
 
     const bot = mineflayer.createBot(botOptions);
 
+    function scheduleRandomLook() {
+    const delay = 20000 + Math.random() * 40000; // 20-60s zufällig
+    setTimeout(() => {
+        if (!bot.entity || !bots[username]?.isOnline) return;
+        bots[username].lastSeen = Date.now();
+        bot.look(Math.random() * Math.PI * 2, (Math.random() - 0.5) * 0.5, true);
+        scheduleRandomLook();
+    }, delay);
+}
+
     // ─── Resource Pack Fix für HugoSMP ───────────────────────────────────────
     // HugoSMP hängt im Configuration State bis das Resource Pack bestätigt wird
     bot._client.on('add_resource_pack', (data) => {
@@ -451,12 +461,7 @@ function createBot(username, onReady = null) {
             if (bot.entity) bot.chat('/afk');
         }, 3000);
 
-        if (bots[username].afkInterval) clearInterval(bots[username].afkInterval);
-        bots[username].afkInterval = setInterval(() => {
-            if (!bot.entity) return;
-            bots[username].lastSeen = Date.now();
-            bot.look(Math.random() * Math.PI * 2, 0, true);
-        }, 30000);
+        scheduleRandomLook();
 
         fireReady();
     });
