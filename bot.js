@@ -448,7 +448,7 @@ function createBot(username, onReady = null) {
         restartLock.delete(username);
 
         setTimeout(() => {
-            if (bot.entity) bot.chat('/afk 35');
+            if (bot.entity) bot.chat('/afk');
         }, 3000);
 
         if (bots[username].afkInterval) clearInterval(bots[username].afkInterval);
