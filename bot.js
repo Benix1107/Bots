@@ -20,6 +20,90 @@ const accounts = [
 ];
 
 const proxies = [
+    { host: '194.39.33.1', port: 5710, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.87', port: 6705, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.203', port: 6850, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.26', port: 7097, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.57.76.118', port: 5690, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.30', port: 6103, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.69', port: 5642, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.28', port: 6646, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.74', port: 6728, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.4', port: 6658, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.238', port: 5947, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.230', port: 6876, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.67', port: 7439, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.75', port: 5784, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.243', port: 6861, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.140', port: 7512, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '92.119.182.209', port: 6854, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.10', port: 6628, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.85', port: 6739, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.11', port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.180', port: 5753, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.191', port: 6264, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.117', port: 6791, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.57.76.2', port: 5574, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.177.59', port: 5432, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '92.119.182.179', port: 6824, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.137', port: 7009, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.234', port: 6307, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.231', port: 7103, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.94', port: 6768, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.189', port: 6843, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.188', port: 7060, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.58', port: 6460, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.149', port: 7021, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.22.234.49', port: 7899, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.142', port: 6544, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.16', port: 6670, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.166', port: 5875, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.63', port: 6135, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.243', port: 6897, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.147.186.86', port: 6959, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.236', port: 6854, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.195', port: 6869, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.127', port: 6781, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.2', port: 7073, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.249', port: 6895, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.79', port: 5788, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.195', port: 267, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.22.234.212', port: 8062, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.147.186.209', port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.177.139', port: 5512, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.226', port: 6873, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.54.205', port: 7077, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.148', port: 6794, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.113', port: 7485, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.185', port: 6832, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.179.137', port: 5509, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.242', port: 6888, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.147.186.183', port: 7056, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.185', port: 5894, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '92.119.182.216', port: 6861, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.249', port: 6903, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.170', port: 5879, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.229', port: 6903, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.99', port: 5808, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.113.119.90', port: 6764, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.151', port: 6223, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.233', port: 7304, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.179.193', port: 5565, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.249', port: 6322, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.144', port: 6216, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.54', port: 6127, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.112', port: 6766, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.138', port: 5711, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.247', port: 6319, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.49', port: 6696, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.66', port: 5639, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.151.162.97', port: 6499, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.22.234.85', port: 7935, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.22.234.62', port: 7912, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.150.179.141', port: 5513, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.250', port: 6904, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.56.138.91', port: 6163, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.158', port: 7229, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
     { host: '45.117.55.22', port: 6668, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
     { host: '31.58.23.222', port: 5795, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
     { host: '206.232.70.78', port: 7149, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
@@ -269,6 +353,16 @@ async function processLoginQueue() {
     loginRunning = false;
 }
 
+function scheduleRandomLook(bot, username) {
+    const delay = 20000 + Math.random() * 40000; // 20–60s zufällig
+    setTimeout(() => {
+        if (!bot.entity || !bots[username]?.isOnline) return;
+        bots[username].lastSeen = Date.now();
+        bot.look(Math.random() * Math.PI * 2, (Math.random() - 0.5) * 0.5, true);
+        scheduleRandomLook(bot, username);
+    }, delay);
+}
+
 function createBot(username, onReady = null) {
     if (restartLock.has(username)) {
         console.log(`[🔒] ${username} — restartLock aktiv`);
@@ -281,6 +375,7 @@ function createBot(username, onReady = null) {
     console.log(`\n[+] Starte ${username} via ${proxy.host}:${proxy.port}`);
 
     let proxyFailed = false;
+    let epipeOccurred = false;
 
     const botOptions = {
         host: HOST,
@@ -313,6 +408,12 @@ function createBot(username, onReady = null) {
                     return;
                 }
 
+                // Raw-Socket EPIPE/ECONNRESET still abfangen
+                info.socket.on('error', (sockErr) => {
+                    if (['EPIPE', 'ECONNRESET', 'ETIMEDOUT'].includes(sockErr.code)) return;
+                    console.log(`[!] ${username} Socket-Fehler: ${sockErr.message}`);
+                });
+
                 proxy._failCount = 0;
                 client.setSocket(info.socket);
                 client.emit('connect');
@@ -322,18 +423,7 @@ function createBot(username, onReady = null) {
 
     const bot = mineflayer.createBot(botOptions);
 
-    function scheduleRandomLook() {
-    const delay = 20000 + Math.random() * 40000; // 20-60s zufällig
-    setTimeout(() => {
-        if (!bot.entity || !bots[username]?.isOnline) return;
-        bots[username].lastSeen = Date.now();
-        bot.look(Math.random() * Math.PI * 2, (Math.random() - 0.5) * 0.5, true);
-        scheduleRandomLook();
-    }, delay);
-}
-
     // ─── Resource Pack Fix für HugoSMP ───────────────────────────────────────
-    // HugoSMP hängt im Configuration State bis das Resource Pack bestätigt wird
     bot._client.on('add_resource_pack', (data) => {
         console.log(`[RP ${username}] Resource Pack → sende successfully_loaded`);
         bot._client.write('resource_pack_receive', {
@@ -348,7 +438,6 @@ function createBot(username, onReady = null) {
         onlineSince: null,
         isOnline: false,
         proxy: proxy.host,
-        afkInterval: null,
     };
 
     let readyFired = false;
@@ -375,10 +464,10 @@ function createBot(username, onReady = null) {
         restartLock.delete(username);
 
         setTimeout(() => {
-            if (bot.entity) bot.chat('/afk');
+            if (bot.entity) bot.chat('/afk 35');
         }, 3000);
 
-        scheduleRandomLook();
+        scheduleRandomLook(bot, username);
 
         fireReady();
     });
@@ -387,7 +476,6 @@ function createBot(username, onReady = null) {
 
     bot.on('end', (reason) => {
         console.log(`[-] ${username} getrennt: ${reason}`);
-        if (bots[username]?.afkInterval) clearInterval(bots[username].afkInterval);
         if (bots[username]) {
             bots[username].isOnline = false;
             bots[username].onlineSince = null;
@@ -395,23 +483,43 @@ function createBot(username, onReady = null) {
         if (!offlineSince[username]) offlineSince[username] = Date.now();
         restartLock.delete(username);
         fireReady();
-        scheduleReconnect(username, proxyFailed);
+
+        // Bei EPIPE sofort reconnecten mit neuem Proxy, nicht 15 Min warten
+        if (epipeOccurred) {
+            console.log(`[🔄] ${username} — EPIPE-Reconnect sofort mit neuem Proxy`);
+            accountState[username].currentProxyIdx = (accountState[username].currentProxyIdx + 1) % proxies.length;
+            setTimeout(() => createBot(username), 10000); // 10s warten dann neu
+        } else {
+            scheduleReconnect(username, proxyFailed);
+        }
     });
 
     bot.on('kicked', (reason) => {
-        console.log(`[!] ${username} gekickt: ${reason}`);
-        if (bots[username]?.afkInterval) clearInterval(bots[username].afkInterval);
+        let reasonStr = reason;
+        try { reasonStr = JSON.stringify(JSON.parse(reason), null, 2); } catch {}
+        console.log(`[!] ${username} gekickt: ${reasonStr}`);
         if (bots[username]) {
             bots[username].isOnline = false;
             bots[username].onlineSince = null;
         }
         if (!offlineSince[username]) offlineSince[username] = Date.now();
         restartLock.delete(username);
-        setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
         fireReady();
+        setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
     });
 
     bot.on('error', (err) => {
+        // EPIPE / ECONNRESET: Proxy-Drop, kein echter Fehler
+        if (err.code === 'EPIPE' || err.code === 'ECONNRESET' || err.message.includes('EPIPE')) {
+            console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy ${proxy.host} instabil`);
+            proxy._failCount = (proxy._failCount || 0) + 1;
+            if (proxy._failCount >= 2) markProxyBad(proxy.host);
+            epipeOccurred = true;
+            restartLock.delete(username);
+            fireReady();
+            return;
+        }
+
         console.log(`[!] ${username} Fehler: ${err.message}`);
 
         if (err.message.includes('Failed to obtain profile data')) {
