@@ -464,7 +464,7 @@ function createBot(username, onReady = null) {
         restartLock.delete(username);
 
         setTimeout(() => {
-            if (bot.entity) bot.chat('/afk 35');
+            if (bot.entity) bot.chat('/afk');
         }, 3000);
 
         scheduleRandomLook(bot, username);
