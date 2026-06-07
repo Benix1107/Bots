@@ -20,16 +20,10 @@ const accounts = [
 ];
 
 const proxies = [
-    { host: '194.39.33.1', port: 5710, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.87', port: 6705, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '172.98.168.203', port: 6850, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '206.232.70.26', port: 7097, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.57.76.118', port: 5690, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.58.9.30', port: 6103, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.58.23.69', port: 5642, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.28', port: 6646, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '154.36.110.74', port: 6728, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '154.36.110.4', port: 6658, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '209.166.23.115',   port: 5276, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '209.166.22.21',    port: 5682, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '104.253.109.49',   port: 5327, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '209.166.3.57',     port: 7218, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
 ];
 
 const RECONNECT_DELAY_NORMAL  = 5 * 60 * 1000;
