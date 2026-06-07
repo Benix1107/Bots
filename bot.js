@@ -19,39 +19,37 @@ const accounts = [
     'DrDihNut', 'Aawaz3', 'Saugroboter3', 'Oafka40', 'FullestFox'
 ];
 
+// Feste Proxys – je Account max 3 IPs (Primary + 2 Backups)
 const proxies = [
-    { host: '194.39.33.1',      port: 5710, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.87',     port: 6705, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '172.98.168.203',   port: 6850, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '206.232.70.26',    port: 7097, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.57.76.118',     port: 5690, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.58.9.30',       port: 6103, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.58.23.69',      port: 5642, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.28',     port: 6646, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '154.36.110.74',    port: 6728, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '154.36.110.4',     port: 6658, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    // Backup-Pool (wird nur bei dauerhaftem Ausfall des Primary genutzt)
-    { host: '194.39.33.238',    port: 5947, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '45.117.55.230',    port: 6876, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '45.159.53.67',     port: 7439, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '194.39.33.75',     port: 5784, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.243',    port: 6861, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '45.159.53.140',    port: 7512, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '92.119.182.209',   port: 6854, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.10',     port: 6628, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '154.36.110.85',    port: 6739, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '206.232.70.11',    port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.1',    port: 5710, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.87',   port: 6705, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '172.98.168.203', port: 6850, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.26',  port: 7097, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.57.76.118',   port: 5690, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.9.30',     port: 6103, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '31.58.23.69',    port: 5642, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.28',   port: 6646, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.74',  port: 6728, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.4',   port: 6658, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    // Backup-Pool
+    { host: '194.39.33.238',  port: 5947, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.117.55.230',  port: 6876, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.67',   port: 7439, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '194.39.33.75',   port: 5784, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.243',  port: 6861, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '45.159.53.140',  port: 7512, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '92.119.182.209', port: 6854, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '77.83.233.10',   port: 6628, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '154.36.110.85',  port: 6739, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '206.232.70.11',  port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
 ];
-
-// ─── KERN-ÄNDERUNG: Feste Proxy-Zuweisung pro Account ────────────────────────
-// Jeder Account hat genau 1 Primary + max 2 Backup-Proxys
-// Die Backups sind ebenfalls fix – kein zufälliges Rotieren!
-const MAX_PROXY_SWITCHES = 2; // max Wechsel pro Account insgesamt
 
 const RECONNECT_DELAY_NORMAL  = 5 * 60 * 1000;
 const RECONNECT_DELAY_RETRY   = 60 * 60 * 1000;
+const PROXY_SWITCH_DELAY      = 15 * 60 * 1000;
 const LOGIN_DELAY             = 30 * 1000;
 const NOTIFY_COOLDOWN_MS      = 30 * 60 * 1000;
+const MAX_PROXY_ATTEMPTS      = 2;   // max Proxy-Wechsel pro Account
 const MAX_JOIN_RETRIES        = 3;
 const BAD_PROXY_TIMEOUT       = 60 * 60 * 1000;
 const PROXY_CHECK_INTERVAL    = 20 * 60 * 1000;
@@ -68,18 +66,14 @@ const badProxies = new Map();
 const authErrorCount = {};
 const offlineSince = {};
 
-// Feste Proxy-Zuweisung: Account[i] → Primary Proxy[i], Backup[i+10], Backup[i+10+1]
-// So hat jeder Account immer dieselben 3 IPs – Microsoft sieht max. 3 IPs pro Account
+// Feste Proxy-Zuweisung: jeder Account startet auf seinem eigenen Primary-Proxy
+// und hat max. 2 Backups aus dem Backup-Pool – nie random rotieren!
 const accountState = {};
 accounts.forEach((name, i) => {
-    const primaryIdx = i % 10;           // Proxy 0–9: Primary-Pool
-    const backup1Idx = 10 + (i % 10);   // Proxy 10–19: Backup 1
-    const backup2Idx = 10 + ((i + 1) % 10); // Proxy 10–19: Backup 2 (leicht versetzt)
-
     accountState[name] = {
-        proxyPool: [primaryIdx, backup1Idx, backup2Idx], // feste Reihenfolge
-        currentPoolIdx: 0,   // Index in proxyPool (0 = primary, 1 = backup1, 2 = backup2)
-        proxySwitches: 0,    // zählt wie oft gewechselt wurde
+        primaryProxyIdx: i % 10,          // Primary: Index 0–9
+        currentProxyIdx: i % 10,          // aktuell genutzter Proxy
+        proxyAttempts: 0,                 // wie oft gewechselt
         joinRetries: 0,
     };
     authErrorCount[name] = 0;
@@ -139,6 +133,14 @@ function markProxyBad(host) {
     if (badProxies.has(host)) return;
     badProxies.set(host, Date.now());
     console.log(`[✗] Proxy ${host} deaktiviert für 1 Stunde`);
+
+    for (const username of accounts) {
+        const data = bots[username];
+        if (data && data.proxy === host && data.isOnline) {
+            console.log(`[→] ${username} nutzt bad proxy → wird neu verbunden`);
+            try { data.bot.end(); } catch (e) {}
+        }
+    }
 }
 
 function isProxyBad(host) {
@@ -146,7 +148,7 @@ function isProxyBad(host) {
     const since = badProxies.get(host);
     if (Date.now() - since > BAD_PROXY_TIMEOUT) {
         badProxies.delete(host);
-        console.log(`[✓] Proxy ${host} wieder freigegeben`);
+        console.log(`[✓] Proxy ${host} wieder freigegeben nach 1h`);
         return false;
     }
     return true;
@@ -180,7 +182,7 @@ function testProxy(proxy) {
 async function checkAllProxies(silent = true) {
     if (!silent) console.log('\n[🔍] Proxy Status Check...');
     for (const proxy of proxies) {
-        isProxyBad(proxy.host); // expired entries clearen
+        isProxyBad(proxy.host);
         if (isProxyBad(proxy.host)) continue;
         const ok = await testProxy(proxy);
         if (!silent) console.log(`  ${ok ? '✅' : '⚠️'} ${proxy.host}:${proxy.port}`);
@@ -191,34 +193,29 @@ async function checkAllProxies(silent = true) {
     }
 }
 
-// ─── Proxy für Account holen (nur aus festem Pool!) ───────────────────────────
+// ─── Proxy Auswahl ────────────────────────────────────────────────────────────
 
-function getCurrentProxy(username) {
-    const state = accountState[username];
-    const idx = state.proxyPool[state.currentPoolIdx];
-    return proxies[idx];
-}
-
-// Wechselt zum nächsten Backup – aber nur wenn noch Wechsel übrig
-// Gibt false zurück wenn kein Wechsel mehr möglich
-function switchToNextProxy(username) {
+function findBestProxy(username) {
     const state = accountState[username];
 
-    if (state.proxySwitches >= MAX_PROXY_SWITCHES) {
-        console.log(`[⚠️] ${username} — max Proxy-Wechsel (${MAX_PROXY_SWITCHES}) erreicht, bleibe auf aktuellem Proxy`);
-        return false;
+    // Immer zuerst den aktuell zugewiesenen Proxy versuchen
+    const current = proxies[state.currentProxyIdx];
+    if (!isProxyBad(current.host)) return current;
+
+    // Nur wenn current bad ist: auf Backup wechseln (max MAX_PROXY_ATTEMPTS mal)
+    if (state.proxyAttempts < MAX_PROXY_ATTEMPTS) {
+        // Backup aus dem Backup-Pool (Index 10+), versetzt pro Account
+        const backupIdx = 10 + ((state.primaryProxyIdx + state.proxyAttempts) % 10);
+        if (!isProxyBad(proxies[backupIdx].host)) {
+            state.currentProxyIdx = backupIdx;
+            state.proxyAttempts++;
+            console.log(`[→] ${username} weicht auf Backup-Proxy ${proxies[backupIdx].host} aus (${state.proxyAttempts}/${MAX_PROXY_ATTEMPTS})`);
+            return proxies[backupIdx];
+        }
     }
 
-    if (state.currentPoolIdx >= state.proxyPool.length - 1) {
-        console.log(`[⚠️] ${username} — kein weiterer Backup-Proxy verfügbar`);
-        return false;
-    }
-
-    state.currentPoolIdx++;
-    state.proxySwitches++;
-    const newProxy = getCurrentProxy(username);
-    console.log(`[🔀] ${username} — Wechsel zu Backup-Proxy #${state.currentPoolIdx}: ${newProxy.host} (${state.proxySwitches}/${MAX_PROXY_SWITCHES} Wechsel)`);
-    return true;
+    // Kein guter Proxy gefunden → trotzdem current zurückgeben
+    return proxies[state.currentProxyIdx];
 }
 
 // ─── Reconnect Logik ──────────────────────────────────────────────────────────
@@ -227,15 +224,12 @@ function scheduleReconnect(username, proxyFailed = false) {
     const state = accountState[username];
 
     if (proxyFailed) {
-        const switched = switchToNextProxy(username);
-        if (switched) {
-            console.log(`[🔄] ${username} — Proxy-Problem, wechsle Proxy und warte 2 Min`);
-            setTimeout(() => createBot(username), 2 * 60 * 1000);
-        } else {
-            // Kein Wechsel mehr → normaler Retry mit aktuellem Proxy
-            console.log(`[🔄] ${username} — Proxy-Problem, kein Wechsel mehr, warte 15 Min`);
-            setTimeout(() => createBot(username), 15 * 60 * 1000);
-        }
+        console.log(`[🔄] ${username} — Proxy-Problem, warte 15 Min`);
+        setTimeout(() => {
+            const newProxy = findBestProxy(username);
+            console.log(`[🔀] ${username} versucht Proxy ${newProxy.host}`);
+            createBot(username);
+        }, PROXY_SWITCH_DELAY);
         return;
     }
 
@@ -282,7 +276,6 @@ function scheduleRandomLook(bot, username) {
 // ─── Bot erstellen ────────────────────────────────────────────────────────────
 
 function createBot(username, onReady = null) {
-    
     if (bots[username]?.isOnline) {
         console.log(`[⚠️] ${username} — bereits online, überspringe`);
         if (onReady) onReady();
@@ -296,14 +289,11 @@ function createBot(username, onReady = null) {
     }
     restartLock.add(username);
 
-    const proxy = getCurrentProxy(username);
-    const state = accountState[username];
-    console.log(`\n[+] Starte ${username} via ${proxy.host}:${proxy.port} (Pool-Slot ${state.currentPoolIdx})`);
+    const proxy = findBestProxy(username);
+    console.log(`\n[+] Starte ${username} via ${proxy.host}:${proxy.port}`);
 
     let proxyFailed = false;
     let epipeOccurred = false;
-    let disconnectHandled = false;
-    let wasOnline = false;
 
     const botOptions = {
         host: HOST,
@@ -371,34 +361,36 @@ function createBot(username, onReady = null) {
     }
 
     bot.once('spawn', () => {
-        wasOnline = true; // NEU
-        console.log(`[✓] ${username} online via ${proxy.host}`);
-        bots[username].isOnline = true;
-        bots[username].lastSeen = Date.now();
-        bots[username].onlineSince = Date.now();
-        offlineSince[username] = null;
+    console.log(`[✓] ${username} online via ${proxy.host}`);
+    bots[username].isOnline = true;
+    bots[username].lastSeen = Date.now();
+    bots[username].onlineSince = Date.now();
+    offlineSince[username] = null;
 
-        accountState[username].joinRetries = 0;
-        notifyCooldown[username] = 0;
-        proxy._failCount = 0;
-        authErrorCount[username] = 0;
+    accountState[username].joinRetries = 0;
+    accountState[username].proxyAttempts = 0;
+    notifyCooldown[username] = 0;
+    proxy._failCount = 0;
+    authErrorCount[username] = 0;
 
-        restartLock.delete(username);
+    restartLock.delete(username);
 
-        setTimeout(() => {
-            if (bot.entity) bot.chat('/afk');
-        }, 3000);
+    // /afk erst nach 15–45s damit es nicht direkt nach Login passiert
+    const afkDelay = 15000 + Math.floor(Math.random() * 30000);
+    setTimeout(() => {
+        if (bot.entity && bots[username]?.isOnline) {
+            bot.chat('/afk');
+            console.log(`[AFK] ${username} → /afk gesendet nach ${Math.round(afkDelay/1000)}s`);
+        }
+    }, afkDelay);
 
-        scheduleRandomLook(bot, username);
-        fireReady();
-    });
+    scheduleRandomLook(bot, username);
+    fireReady();
+});
 
     bot.on('login', () => console.log(`[i] ${username} logged in`));
 
     bot.on('end', (reason) => {
-        if (disconnectHandled) return;
-        disconnectHandled = true;
-
         console.log(`[-] ${username} getrennt: ${reason}`);
         if (bots[username]) {
             bots[username].isOnline = false;
@@ -409,18 +401,15 @@ function createBot(username, onReady = null) {
         fireReady();
 
         if (epipeOccurred) {
-            console.log(`[🔄] ${username} — EPIPE, reconnecte in 10s (gleicher Proxy)`);
+            console.log(`[🔄] ${username} — EPIPE, Proxy wechseln und in 10s reconnecten`);
+            accountState[username].currentProxyIdx = (accountState[username].currentProxyIdx + 1) % proxies.length;
             setTimeout(() => createBot(username), 10000);
-            scheduleReconnect(username, wasOnline ? false : proxyFailed);
         } else {
             scheduleReconnect(username, proxyFailed);
         }
     });
 
     bot.on('kicked', (reason) => {
-        if (disconnectHandled) return;
-        disconnectHandled = true;
-
         let reasonStr = reason;
         try { reasonStr = JSON.stringify(JSON.parse(reason), null, 2); } catch {}
         console.log(`[!] ${username} gekickt: ${reasonStr}`);
@@ -436,21 +425,18 @@ function createBot(username, onReady = null) {
 
     bot.on('error', (err) => {
         if (err.code === 'EPIPE' || err.code === 'ECONNRESET' || err.message.includes('EPIPE')) {
-            console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy instabil`);
+            console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy ${proxy.host} instabil`);
             proxy._failCount = (proxy._failCount || 0) + 1;
             if (proxy._failCount >= 2) markProxyBad(proxy.host);
             epipeOccurred = true;
-            // disconnectHandled hier NICHT setzen – end-Event kommt danach noch
             restartLock.delete(username);
             fireReady();
             return;
         }
 
+        console.log(`[!] ${username} Fehler: ${err.message}`);
+
         if (err.message.includes('Failed to obtain profile data')) {
-            // Auth-Fehler: disconnectHandled ignorieren, eigene Logik
-            if (disconnectHandled) return; // NEU
-            disconnectHandled = true;      // NEU
-            
             authErrorCount[username] = (authErrorCount[username] || 0) + 1;
             const attempt = authErrorCount[username];
             console.log(`[💤] ${username} — Auth-Fehler #${attempt}, lösche Token-Cache...`);
@@ -464,7 +450,8 @@ function createBot(username, onReady = null) {
                 }, 60 * 60 * 1000);
             } else {
                 const delayMs = Math.min(5 * 60 * 1000 * Math.pow(3, attempt - 1), AUTH_ERROR_DELAY);
-                console.log(`[💤] ${username} — Warte ${Math.round(delayMs / 60000)} Min (Auth Backoff #${attempt})`);
+                const delayMin = Math.round(delayMs / 60000);
+                console.log(`[💤] ${username} — Warte ${delayMin} Min (Auth Backoff #${attempt})`);
                 setTimeout(() => createBot(username), delayMs);
             }
 
@@ -472,10 +459,6 @@ function createBot(username, onReady = null) {
             return;
         }
 
-        if (disconnectHandled) return;
-        disconnectHandled = true;
-
-        console.log(`[!] ${username} Fehler: ${err.message}`);
         restartLock.delete(username);
         fireReady();
     });
@@ -489,14 +472,13 @@ function createBot(username, onReady = null) {
 // ─── Start ────────────────────────────────────────────────────────────────────
 
 checkAllProxies(true).then(() => {
-    // Proxy-Zuweisung anzeigen
     console.log('\n[📋] Proxy-Zuweisung:');
     accounts.forEach((name) => {
         const state = accountState[name];
-        const poolInfo = state.proxyPool.map((idx, i) =>
-            `${i === 0 ? 'P' : `B${i}`}:${proxies[idx].host}`
-        ).join(' | ');
-        console.log(`  ${name}: ${poolInfo}`);
+        const primary = proxies[state.primaryProxyIdx].host;
+        const b1 = proxies[10 + (state.primaryProxyIdx % 10)].host;
+        const b2 = proxies[10 + ((state.primaryProxyIdx + 1) % 10)].host;
+        console.log(`  ${name}: P:${primary} | B1:${b1} | B2:${b2}`);
     });
     console.log('');
     processLoginQueue();
@@ -518,9 +500,8 @@ setInterval(() => {
         }
         const timeSince = Math.round((now - data.lastSeen) / 1000);
         const status = data.isOnline ? '✅ online' : '❌ offline';
-        const proxy = getCurrentProxy(username);
         const authErr = authErrorCount[username] > 0 ? ` | AuthErr: ${authErrorCount[username]}` : '';
-        console.log(`  ${status} | ${username} | Proxy: ${proxy.host} (Slot ${state.currentPoolIdx}) | Aktivität: ${timeSince}s | Retries: ${state.joinRetries}${authErr}`);
+        console.log(`  ${status} | ${username} | Proxy: ${data.proxy} | Aktivität: ${timeSince}s | Retries: ${state.joinRetries}${authErr}`);
     }
     const badList = [...badProxies.keys()];
     console.log(`  Bad Proxies: ${badList.length > 0 ? badList.join(', ') : 'keine'}`);
