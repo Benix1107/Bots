@@ -283,8 +283,6 @@ function scheduleRandomLook(bot, username) {
 
 function createBot(username, onReady = null) {
     
-    let disconnectHandled = false; // am Anfang von createBot hinzufügen
-    
     if (bots[username]?.isOnline) {
         console.log(`[⚠️] ${username} — bereits online, überspringe`);
         if (onReady) onReady();
