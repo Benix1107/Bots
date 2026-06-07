@@ -303,6 +303,7 @@ function createBot(username, onReady = null) {
     let proxyFailed = false;
     let epipeOccurred = false;
     let disconnectHandled = false;
+    let wasOnline = false;
 
     const botOptions = {
         host: HOST,
@@ -370,6 +371,7 @@ function createBot(username, onReady = null) {
     }
 
     bot.once('spawn', () => {
+        wasOnline = true; // NEU
         console.log(`[✓] ${username} online via ${proxy.host}`);
         bots[username].isOnline = true;
         bots[username].lastSeen = Date.now();
