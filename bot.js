@@ -43,6 +43,8 @@ const proxies = [
     { host: '206.232.70.11',    port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
 ];
 
+let disconnectHandled = false; // am Anfang von createBot hinzufügen
+
 // ─── KERN-ÄNDERUNG: Feste Proxy-Zuweisung pro Account ────────────────────────
 // Jeder Account hat genau 1 Primary + max 2 Backup-Proxys
 // Die Backups sind ebenfalls fix – kein zufälliges Rotieren!
@@ -282,13 +284,12 @@ function scheduleRandomLook(bot, username) {
 // ─── Bot erstellen ────────────────────────────────────────────────────────────
 
 function createBot(username, onReady = null) {
-    // NEU: Wenn Bot schon online ist, nicht nochmal verbinden
     if (bots[username]?.isOnline) {
-        console.log(`[⚠️] ${username} — bereits online, überspringe createBot`);
+        console.log(`[⚠️] ${username} — bereits online, überspringe`);
         if (onReady) onReady();
         return;
     }
-    
+
     if (restartLock.has(username)) {
         console.log(`[🔒] ${username} — restartLock aktiv`);
         if (onReady) onReady();
@@ -302,6 +303,7 @@ function createBot(username, onReady = null) {
 
     let proxyFailed = false;
     let epipeOccurred = false;
+    let disconnectHandled = false;
 
     const botOptions = {
         host: HOST,
@@ -380,6 +382,8 @@ function createBot(username, onReady = null) {
         proxy._failCount = 0;
         authErrorCount[username] = 0;
 
+        restartLock.delete(username);
+
         setTimeout(() => {
             if (bot.entity) bot.chat('/afk');
         }, 3000);
@@ -391,19 +395,20 @@ function createBot(username, onReady = null) {
     bot.on('login', () => console.log(`[i] ${username} logged in`));
 
     bot.on('end', (reason) => {
+        if (disconnectHandled) return;
+        disconnectHandled = true;
+
         console.log(`[-] ${username} getrennt: ${reason}`);
         if (bots[username]) {
             bots[username].isOnline = false;
             bots[username].onlineSince = null;
         }
         if (!offlineSince[username]) offlineSince[username] = Date.now();
-        
         restartLock.delete(username);
         fireReady();
 
         if (epipeOccurred) {
             console.log(`[🔄] ${username} — EPIPE, reconnecte in 10s (gleicher Proxy)`);
-            // EPIPE = Proxy-Drop, kein IP-Wechsel nötig!
             setTimeout(() => createBot(username), 10000);
         } else {
             scheduleReconnect(username, proxyFailed);
@@ -411,6 +416,9 @@ function createBot(username, onReady = null) {
     });
 
     bot.on('kicked', (reason) => {
+        if (disconnectHandled) return;
+        disconnectHandled = true;
+
         let reasonStr = reason;
         try { reasonStr = JSON.stringify(JSON.parse(reason), null, 2); } catch {}
         console.log(`[!] ${username} gekickt: ${reasonStr}`);
@@ -426,18 +434,18 @@ function createBot(username, onReady = null) {
 
     bot.on('error', (err) => {
         if (err.code === 'EPIPE' || err.code === 'ECONNRESET' || err.message.includes('EPIPE')) {
-            console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy ${proxy.host} instabil`);
+            console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy instabil`);
             proxy._failCount = (proxy._failCount || 0) + 1;
             if (proxy._failCount >= 2) markProxyBad(proxy.host);
             epipeOccurred = true;
+            // disconnectHandled hier NICHT setzen – end-Event kommt danach noch
             restartLock.delete(username);
             fireReady();
             return;
         }
 
-        console.log(`[!] ${username} Fehler: ${err.message}`);
-
         if (err.message.includes('Failed to obtain profile data')) {
+            // Auth-Fehler: disconnectHandled ignorieren, eigene Logik
             authErrorCount[username] = (authErrorCount[username] || 0) + 1;
             const attempt = authErrorCount[username];
             console.log(`[💤] ${username} — Auth-Fehler #${attempt}, lösche Token-Cache...`);
@@ -451,8 +459,7 @@ function createBot(username, onReady = null) {
                 }, 60 * 60 * 1000);
             } else {
                 const delayMs = Math.min(5 * 60 * 1000 * Math.pow(3, attempt - 1), AUTH_ERROR_DELAY);
-                const delayMin = Math.round(delayMs / 60000);
-                console.log(`[💤] ${username} — Warte ${delayMin} Min (Auth Backoff #${attempt})`);
+                console.log(`[💤] ${username} — Warte ${Math.round(delayMs / 60000)} Min (Auth Backoff #${attempt})`);
                 setTimeout(() => createBot(username), delayMs);
             }
 
@@ -460,6 +467,10 @@ function createBot(username, onReady = null) {
             return;
         }
 
+        if (disconnectHandled) return;
+        disconnectHandled = true;
+
+        console.log(`[!] ${username} Fehler: ${err.message}`);
         restartLock.delete(username);
         fireReady();
     });
