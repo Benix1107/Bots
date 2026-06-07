@@ -20,27 +20,26 @@ const accounts = [
 ];
 
 const proxies = [
-    { host: '194.39.33.1',      port: 5710, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.87',     port: 6705, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '172.98.168.203',   port: 6850, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '206.232.70.26',    port: 7097, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.57.76.118',     port: 5690, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.58.9.30',       port: 6103, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '31.58.23.69',      port: 5642, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.28',     port: 6646, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '154.36.110.74',    port: 6728, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '154.36.110.4',     port: 6658, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    // Backup-Pool (wird nur bei dauerhaftem Ausfall des Primary genutzt)
-    { host: '194.39.33.238',    port: 5947, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '45.117.55.230',    port: 6876, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '45.159.53.67',     port: 7439, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '194.39.33.75',     port: 5784, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.243',    port: 6861, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '45.159.53.140',    port: 7512, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '92.119.182.209',   port: 6854, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '77.83.233.10',     port: 6628, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '154.36.110.85',    port: 6739, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
-    { host: '206.232.70.11',    port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '166.0.40.18',      port: 7026, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '23.27.88.243',     port: 7245, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.23.91.207',     port: 7966, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '150.241.118.95',   port: 6097, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '23.27.67.12',      port: 6514, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '104.253.199.103',  port: 5382, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '104.253.248.205',  port: 5984, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '166.0.40.207',     port: 7215, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.23.89.158',     port: 7915, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.23.91.89',      port: 7848, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.29.142.53',     port: 7772, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.23.91.235',     port: 7994, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '82.23.86.82',      port: 7340, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '23.27.65.9',       port: 5512, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '150.241.119.33',   port: 5535, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '166.0.41.207',     port: 6715, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '209.166.23.115',   port: 5276, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '209.166.22.21',    port: 5682, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '104.253.109.49',   port: 5327, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
+    { host: '209.166.3.57',     port: 7218, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
 ];
 
 // ─── KERN-ÄNDERUNG: Feste Proxy-Zuweisung pro Account ────────────────────────
@@ -50,7 +49,7 @@ const MAX_PROXY_SWITCHES = 2; // max Wechsel pro Account insgesamt
 
 const RECONNECT_DELAY_NORMAL  = 5 * 60 * 1000;
 const RECONNECT_DELAY_RETRY   = 60 * 60 * 1000;
-const LOGIN_DELAY = 2 * 60 * 1000; // 2 Minuten
+const LOGIN_DELAY = 1 * 30 * 1000;
 const NOTIFY_COOLDOWN_MS      = 30 * 60 * 1000;
 const MAX_JOIN_RETRIES        = 3;
 const BAD_PROXY_TIMEOUT       = 60 * 60 * 1000;
