@@ -282,6 +282,13 @@ function scheduleRandomLook(bot, username) {
 // ─── Bot erstellen ────────────────────────────────────────────────────────────
 
 function createBot(username, onReady = null) {
+    // NEU: Wenn Bot schon online ist, nicht nochmal verbinden
+    if (bots[username]?.isOnline) {
+        console.log(`[⚠️] ${username} — bereits online, überspringe createBot`);
+        if (onReady) onReady();
+        return;
+    }
+    
     if (restartLock.has(username)) {
         console.log(`[🔒] ${username} — restartLock aktiv`);
         if (onReady) onReady();
@@ -373,8 +380,6 @@ function createBot(username, onReady = null) {
         proxy._failCount = 0;
         authErrorCount[username] = 0;
 
-        restartLock.delete(username);
-
         setTimeout(() => {
             if (bot.entity) bot.chat('/afk');
         }, 3000);
@@ -392,6 +397,7 @@ function createBot(username, onReady = null) {
             bots[username].onlineSince = null;
         }
         if (!offlineSince[username]) offlineSince[username] = Date.now();
+        
         restartLock.delete(username);
         fireReady();
 
