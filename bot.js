@@ -409,6 +409,7 @@ function createBot(username, onReady = null) {
         if (epipeOccurred) {
             console.log(`[🔄] ${username} — EPIPE, reconnecte in 10s (gleicher Proxy)`);
             setTimeout(() => createBot(username), 10000);
+            scheduleReconnect(username, wasOnline ? false : proxyFailed);
         } else {
             scheduleReconnect(username, proxyFailed);
         }
@@ -445,6 +446,9 @@ function createBot(username, onReady = null) {
 
         if (err.message.includes('Failed to obtain profile data')) {
             // Auth-Fehler: disconnectHandled ignorieren, eigene Logik
+            if (disconnectHandled) return; // NEU
+            disconnectHandled = true;      // NEU
+            
             authErrorCount[username] = (authErrorCount[username] || 0) + 1;
             const attempt = authErrorCount[username];
             console.log(`[💤] ${username} — Auth-Fehler #${attempt}, lösche Token-Cache...`);
