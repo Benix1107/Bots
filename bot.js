@@ -417,21 +417,23 @@ function createBot(username, onReady = null) {
     });
 
     bot.on('kicked', (reason) => {
-        if (disconnectHandled) return;
-        disconnectHandled = true;
-
-        let reasonStr = reason;
-        try { reasonStr = JSON.stringify(JSON.parse(reason), null, 2); } catch {}
-        console.log(`[!] ${username} gekickt: ${reasonStr}`);
-        if (bots[username]) {
-            bots[username].isOnline = false;
-            bots[username].onlineSince = null;
-        }
-        if (!offlineSince[username]) offlineSince[username] = Date.now();
-        restartLock.delete(username);
-        fireReady();
-        setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
-    });
+    let reasonStr;
+    try {
+        const parsed = typeof reason === 'string' ? JSON.parse(reason) : reason;
+        reasonStr = parsed?.text || parsed?.extra?.[0]?.text || JSON.stringify(parsed, null, 2);
+    } catch {
+        reasonStr = String(reason);
+    }
+    console.log(`[KICK ${username}] ${reasonStr}`);
+    if (bots[username]) {
+        bots[username].isOnline = false;
+        bots[username].onlineSince = null;
+    }
+    if (!offlineSince[username]) offlineSince[username] = Date.now();
+    restartLock.delete(username);
+    fireReady();
+    setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
+});
 
     bot.on('error', (err) => {
         if (err.code === 'EPIPE' || err.code === 'ECONNRESET' || err.message.includes('EPIPE')) {
