@@ -43,8 +43,6 @@ const proxies = [
     { host: '206.232.70.11',    port: 7082, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
 ];
 
-let disconnectHandled = false; // am Anfang von createBot hinzufügen
-
 // ─── KERN-ÄNDERUNG: Feste Proxy-Zuweisung pro Account ────────────────────────
 // Jeder Account hat genau 1 Primary + max 2 Backup-Proxys
 // Die Backups sind ebenfalls fix – kein zufälliges Rotieren!
@@ -284,6 +282,9 @@ function scheduleRandomLook(bot, username) {
 // ─── Bot erstellen ────────────────────────────────────────────────────────────
 
 function createBot(username, onReady = null) {
+    
+    let disconnectHandled = false; // am Anfang von createBot hinzufügen
+    
     if (bots[username]?.isOnline) {
         console.log(`[⚠️] ${username} — bereits online, überspringe`);
         if (onReady) onReady();
