@@ -50,7 +50,7 @@ const MAX_PROXY_SWITCHES = 2; // max Wechsel pro Account insgesamt
 
 const RECONNECT_DELAY_NORMAL  = 5 * 60 * 1000;
 const RECONNECT_DELAY_RETRY   = 60 * 60 * 1000;
-const LOGIN_DELAY             = 30 * 1000;
+const LOGIN_DELAY = 2 * 60 * 1000; // 2 Minuten
 const NOTIFY_COOLDOWN_MS      = 30 * 60 * 1000;
 const MAX_JOIN_RETRIES        = 3;
 const BAD_PROXY_TIMEOUT       = 60 * 60 * 1000;
