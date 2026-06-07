@@ -49,7 +49,7 @@ const MAX_PROXY_SWITCHES = 2; // max Wechsel pro Account insgesamt
 
 const RECONNECT_DELAY_NORMAL  = 5 * 60 * 1000;
 const RECONNECT_DELAY_RETRY   = 60 * 60 * 1000;
-const LOGIN_DELAY = 2 * 60 * 1000;
+const LOGIN_DELAY = 3 * 60 * 1000; // 3 Minuten zwischen jedem Account
 const NOTIFY_COOLDOWN_MS      = 30 * 60 * 1000;
 const MAX_JOIN_RETRIES        = 3;
 const BAD_PROXY_TIMEOUT       = 60 * 60 * 1000;
@@ -420,7 +420,7 @@ function createBot(username, onReady = null) {
     let reasonStr;
     try {
         const parsed = typeof reason === 'string' ? JSON.parse(reason) : reason;
-        reasonStr = parsed?.text || parsed?.extra?.[0]?.text || JSON.stringify(parsed, null, 2);
+        reasonStr = parsed?.value?.text?.value || parsed?.text || JSON.stringify(parsed, null, 2);
     } catch {
         reasonStr = String(reason);
     }
@@ -432,7 +432,12 @@ function createBot(username, onReady = null) {
     if (!offlineSince[username]) offlineSince[username] = Date.now();
     restartLock.delete(username);
     fireReady();
-    setTimeout(() => createBot(username), RECONNECT_DELAY_NORMAL);
+
+    // Bei internal error länger warten
+    const delay = reasonStr.includes('internal error') 
+        ? 10 * 60 * 1000  // 10 Min
+        : RECONNECT_DELAY_NORMAL; // 5 Min normal
+    setTimeout(() => createBot(username), delay);
 });
 
     bot.on('error', (err) => {
