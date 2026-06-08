@@ -57,7 +57,7 @@ const PROXY_CHECK_INTERVAL    = 20 * 60 * 1000;
 const PROXY_TEST_TIMEOUT      = 8000;
 const AUTH_ERROR_DELAY        = 30 * 60 * 1000;
 const AUTH_MAX_RETRIES        = 3;
-const STATUS_UPDATE_INTERVAL  = 2 * 60 * 60 * 1000;
+const STATUS_UPDATE_INTERVAL  = 6 * 60 * 60 * 1000;
 const CRITICAL_EVENTS_ONLY    = true;
 
 const bots = {};
