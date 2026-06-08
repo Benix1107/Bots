@@ -16,7 +16,7 @@ process.on('unhandledRejection', (reason) => {
 });
 
 const accounts = [
-    'Benix1107'
+    'NebelBand'
 ];
 
 const proxies = [
