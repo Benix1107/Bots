@@ -257,16 +257,6 @@ async function processLoginQueue() {
     loginRunning = false;
 }
 
-function scheduleRandomLook(bot, username) {
-    const delay = 20000 + Math.random() * 40000; // 20–60s zufällig
-    setTimeout(() => {
-        if (!bot.entity || !bots[username]?.isOnline) return;
-        bots[username].lastSeen = Date.now();
-        bot.look(Math.random() * Math.PI * 2, (Math.random() - 0.5) * 0.5, true);
-        scheduleRandomLook(bot, username);
-    }, delay);
-}
-
 function createBot(username, onReady = null) {
     if (restartLock.has(username)) {
         console.log(`[🔒] ${username} — restartLock aktiv`);
@@ -366,8 +356,6 @@ function createBot(username, onReady = null) {
         authErrorCount[username] = 0;
 
         restartLock.delete(username);
-
-        scheduleRandomLook(bot, username);
 
         fireReady();
     });
