@@ -393,27 +393,27 @@ function createBot(username, onReady = null) {
 
     bot.on('login', () => console.log(`[i] ${username} logged in`));
 
-    bot.on('end', (reason) => {
-        if (disconnectHandled) return;
-        disconnectHandled = true;
+   bot.on('end', (reason) => {
+    if (disconnectHandled) return;
+    disconnectHandled = true;
 
-        console.log(`[-] ${username} getrennt: ${reason}`);
-        if (bots[username]) {
-            bots[username].isOnline = false;
-            bots[username].onlineSince = null;
-        }
-        if (!offlineSince[username]) offlineSince[username] = Date.now();
-        restartLock.delete(username);
-        fireReady();
+    console.log(`[-] ${username} getrennt: ${reason}`);
+    if (bots[username]) {
+        bots[username].isOnline = false;
+        bots[username].onlineSince = null;
+    }
+    if (!offlineSince[username]) offlineSince[username] = Date.now();
+    restartLock.delete(username);
+    fireReady();
 
-        if (epipeOccurred) {
-            console.log(`[🔄] ${username} — EPIPE, reconnecte in 10s (gleicher Proxy)`);
-            setTimeout(() => createBot(username), 10000);
-            scheduleReconnect(username, wasOnline ? false : proxyFailed);
-        } else {
-            scheduleReconnect(username, proxyFailed);
-        }
-    });
+    if (epipeOccurred) {
+        // EPIPE: kurzer Reconnect, kein scheduleReconnect danach
+        console.log(`[🔄] ${username} — EPIPE, reconnecte in 10s (gleicher Proxy)`);
+        setTimeout(() => createBot(username), 10000);
+    } else {
+        scheduleReconnect(username, proxyFailed);
+    }
+});
 
     bot.on('kicked', (reason) => {
     let reasonStr;
@@ -441,15 +441,13 @@ function createBot(username, onReady = null) {
 
     bot.on('error', (err) => {
         if (err.code === 'EPIPE' || err.code === 'ECONNRESET' || err.message.includes('EPIPE')) {
-            console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy instabil`);
-            proxy._failCount = (proxy._failCount || 0) + 1;
-            if (proxy._failCount >= 2) markProxyBad(proxy.host);
-            epipeOccurred = true;
-            // disconnectHandled hier NICHT setzen – end-Event kommt danach noch
-            restartLock.delete(username);
-            fireReady();
-            return;
-        }
+    console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy instabil`);
+    proxy._failCount = (proxy._failCount || 0) + 1;
+    if (proxy._failCount >= 2) markProxyBad(proxy.host);
+    epipeOccurred = true;
+    // Kein fireReady, kein restartLock.delete hier – end kommt danach
+    return;
+}
 
         if (err.message.includes('Failed to obtain profile data')) {
             // Auth-Fehler: disconnectHandled ignorieren, eigene Logik
