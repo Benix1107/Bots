@@ -41,23 +41,20 @@ const proxies = [
     { host: '209.166.3.57',     port: 7218, type: 5, username: 'kxjojarp', password: 'rrfizodtjsqj' },
 ];
 
-// ─── KERN-ÄNDERUNG: Feste Proxy-Zuweisung pro Account ────────────────────────
-// Jeder Account hat genau 1 Primary + max 2 Backup-Proxys
-// Die Backups sind ebenfalls fix – kein zufälliges Rotieren!
-const MAX_PROXY_SWITCHES = 2; // max Wechsel pro Account insgesamt
+const MAX_PROXY_SWITCHES = 2;
 
 const RECONNECT_DELAY_NORMAL  = 5 * 60 * 1000;
 const RECONNECT_DELAY_RETRY   = 60 * 60 * 1000;
-const LOGIN_DELAY = 3 * 60 * 1000; // 3 Minuten zwischen jedem Account
-const NOTIFY_COOLDOWN_MS      = 30 * 60 * 1000;
-const MAX_JOIN_RETRIES        = 3;
-const BAD_PROXY_TIMEOUT       = 60 * 60 * 1000;
-const PROXY_CHECK_INTERVAL    = 20 * 60 * 1000;
-const PROXY_TEST_TIMEOUT      = 8000;
-const AUTH_ERROR_DELAY        = 30 * 60 * 1000;
-const AUTH_MAX_RETRIES        = 3;
-const STATUS_UPDATE_INTERVAL  = 6 * 60 * 60 * 1000;
-const CRITICAL_EVENTS_ONLY    = true;
+const LOGIN_DELAY              = 3 * 60 * 1000;
+const NOTIFY_COOLDOWN_MS       = 30 * 60 * 1000;
+const MAX_JOIN_RETRIES         = 3;
+const BAD_PROXY_TIMEOUT        = 60 * 60 * 1000;
+const PROXY_CHECK_INTERVAL     = 20 * 60 * 1000;
+const PROXY_TEST_TIMEOUT       = 8000;
+const AUTH_ERROR_DELAY         = 30 * 60 * 1000;
+const AUTH_MAX_RETRIES         = 3;
+const STATUS_UPDATE_INTERVAL   = 6 * 60 * 60 * 1000;
+const CRITICAL_EVENTS_ONLY     = true;
 
 const bots = {};
 const restartLock = new Set();
@@ -66,18 +63,16 @@ const badProxies = new Map();
 const authErrorCount = {};
 const offlineSince = {};
 
-// Feste Proxy-Zuweisung: Account[i] → Primary Proxy[i], Backup[i+10], Backup[i+10+1]
-// So hat jeder Account immer dieselben 3 IPs – Microsoft sieht max. 3 IPs pro Account
 const accountState = {};
 accounts.forEach((name, i) => {
-    const primaryIdx = i % 10;           // Proxy 0–9: Primary-Pool
-    const backup1Idx = 10 + (i % 10);   // Proxy 10–19: Backup 1
-    const backup2Idx = 10 + ((i + 1) % 10); // Proxy 10–19: Backup 2 (leicht versetzt)
+    const primaryIdx = i % 10;
+    const backup1Idx = 10 + (i % 10);
+    const backup2Idx = 10 + ((i + 1) % 10);
 
     accountState[name] = {
-        proxyPool: [primaryIdx, backup1Idx, backup2Idx], // feste Reihenfolge
-        currentPoolIdx: 0,   // Index in proxyPool (0 = primary, 1 = backup1, 2 = backup2)
-        proxySwitches: 0,    // zählt wie oft gewechselt wurde
+        proxyPool: [primaryIdx, backup1Idx, backup2Idx],
+        currentPoolIdx: 0,
+        proxySwitches: 0,
         joinRetries: 0,
     };
     authErrorCount[name] = 0;
@@ -178,7 +173,7 @@ function testProxy(proxy) {
 async function checkAllProxies(silent = true) {
     if (!silent) console.log('\n[🔍] Proxy Status Check...');
     for (const proxy of proxies) {
-        isProxyBad(proxy.host); // expired entries clearen
+        isProxyBad(proxy.host);
         if (isProxyBad(proxy.host)) continue;
         const ok = await testProxy(proxy);
         if (!silent) console.log(`  ${ok ? '✅' : '⚠️'} ${proxy.host}:${proxy.port}`);
@@ -189,7 +184,7 @@ async function checkAllProxies(silent = true) {
     }
 }
 
-// ─── Proxy für Account holen (nur aus festem Pool!) ───────────────────────────
+// ─── Proxy für Account holen ───────────────────────────────────────────────────
 
 function getCurrentProxy(username) {
     const state = accountState[username];
@@ -197,13 +192,11 @@ function getCurrentProxy(username) {
     return proxies[idx];
 }
 
-// Wechselt zum nächsten Backup – aber nur wenn noch Wechsel übrig
-// Gibt false zurück wenn kein Wechsel mehr möglich
 function switchToNextProxy(username) {
     const state = accountState[username];
 
     if (state.proxySwitches >= MAX_PROXY_SWITCHES) {
-        console.log(`[⚠️] ${username} — max Proxy-Wechsel (${MAX_PROXY_SWITCHES}) erreicht, bleibe auf aktuellem Proxy`);
+        console.log(`[⚠️] ${username} — max Proxy-Wechsel (${MAX_PROXY_SWITCHES}) erreicht`);
         return false;
     }
 
@@ -230,7 +223,6 @@ function scheduleReconnect(username, proxyFailed = false) {
             console.log(`[🔄] ${username} — Proxy-Problem, wechsle Proxy und warte 2 Min`);
             setTimeout(() => createBot(username), 2 * 60 * 1000);
         } else {
-            // Kein Wechsel mehr → normaler Retry mit aktuellem Proxy
             console.log(`[🔄] ${username} — Proxy-Problem, kein Wechsel mehr, warte 15 Min`);
             setTimeout(() => createBot(username), 15 * 60 * 1000);
         }
@@ -280,7 +272,7 @@ function scheduleRandomLook(bot, username) {
 // ─── Bot erstellen ────────────────────────────────────────────────────────────
 
 function createBot(username, onReady = null) {
-    
+
     if (bots[username]?.isOnline) {
         console.log(`[⚠️] ${username} — bereits online, überspringe`);
         if (onReady) onReady();
@@ -301,7 +293,6 @@ function createBot(username, onReady = null) {
     let proxyFailed = false;
     let epipeOccurred = false;
     let disconnectHandled = false;
-    let wasOnline = false;
 
     const botOptions = {
         host: HOST,
@@ -368,8 +359,21 @@ function createBot(username, onReady = null) {
         }
     }
 
+    // FIX: /afk mit Retry-Logik falls Bot noch nicht vollständig gespawnt
+    function tryAfk(attempt = 1) {
+        if (!bots[username]?.isOnline) return;
+        if (bot.entity) {
+            bot.chat('/afk');
+            console.log(`[AFK] ${username} — /afk gesendet (Versuch ${attempt})`);
+        } else if (attempt < 6) {
+            console.log(`[AFK] ${username} — entity noch nicht da, retry in 5s (Versuch ${attempt})`);
+            setTimeout(() => tryAfk(attempt + 1), 5000);
+        } else {
+            console.log(`[AFK] ${username} — /afk nach ${attempt} Versuchen aufgegeben`);
+        }
+    }
+
     bot.once('spawn', () => {
-        wasOnline = true; // NEU
         console.log(`[✓] ${username} online via ${proxy.host}`);
         bots[username].isOnline = true;
         bots[username].lastSeen = Date.now();
@@ -383,9 +387,8 @@ function createBot(username, onReady = null) {
 
         restartLock.delete(username);
 
-        setTimeout(() => {
-            if (bot.entity) bot.chat('/afk');
-        }, 3000);
+        // FIX: 5s Delay + Retry statt einmaligem 3s Timeout
+        setTimeout(() => tryAfk(), 5000);
 
         scheduleRandomLook(bot, username);
         fireReady();
@@ -393,67 +396,70 @@ function createBot(username, onReady = null) {
 
     bot.on('login', () => console.log(`[i] ${username} logged in`));
 
-   bot.on('end', (reason) => {
-    if (disconnectHandled) return;
-    disconnectHandled = true;
+    // FIX: restartLock.delete IMMER am Anfang, disconnectHandled guard
+    bot.on('end', (reason) => {
+        restartLock.delete(username); // immer löschen
+        if (disconnectHandled) return;
+        disconnectHandled = true;
 
-    console.log(`[-] ${username} getrennt: ${reason}`);
-    if (bots[username]) {
-        bots[username].isOnline = false;
-        bots[username].onlineSince = null;
-    }
-    if (!offlineSince[username]) offlineSince[username] = Date.now();
-    restartLock.delete(username);
-    fireReady();
+        console.log(`[-] ${username} getrennt: ${reason}`);
+        if (bots[username]) {
+            bots[username].isOnline = false;
+            bots[username].onlineSince = null;
+        }
+        if (!offlineSince[username]) offlineSince[username] = Date.now();
+        fireReady();
 
-    if (epipeOccurred) {
-        // EPIPE: kurzer Reconnect, kein scheduleReconnect danach
-        console.log(`[🔄] ${username} — EPIPE, reconnecte in 10s (gleicher Proxy)`);
-        setTimeout(() => createBot(username), 10000);
-    } else {
-        scheduleReconnect(username, proxyFailed);
-    }
-});
+        if (epipeOccurred) {
+            console.log(`[🔄] ${username} — EPIPE, reconnecte in 10s (gleicher Proxy)`);
+            setTimeout(() => createBot(username), 10000);
+        } else {
+            scheduleReconnect(username, proxyFailed);
+        }
+    });
 
+    // FIX: disconnectHandled guard ergänzt
     bot.on('kicked', (reason) => {
-    let reasonStr;
-    try {
-        const parsed = typeof reason === 'string' ? JSON.parse(reason) : reason;
-        reasonStr = parsed?.value?.text?.value || parsed?.text || JSON.stringify(parsed, null, 2);
-    } catch {
-        reasonStr = String(reason);
-    }
-    console.log(`[KICK ${username}] ${reasonStr}`);
-    if (bots[username]) {
-        bots[username].isOnline = false;
-        bots[username].onlineSince = null;
-    }
-    if (!offlineSince[username]) offlineSince[username] = Date.now();
-    restartLock.delete(username);
-    fireReady();
+        if (disconnectHandled) return;
+        disconnectHandled = true;
 
-    // Bei internal error länger warten
-    const delay = reasonStr.includes('internal error') 
-        ? 10 * 60 * 1000  // 10 Min
-        : RECONNECT_DELAY_NORMAL; // 5 Min normal
-    setTimeout(() => createBot(username), delay);
-});
+        let reasonStr;
+        try {
+            const parsed = typeof reason === 'string' ? JSON.parse(reason) : reason;
+            reasonStr = parsed?.value?.text?.value || parsed?.text || JSON.stringify(parsed, null, 2);
+        } catch {
+            reasonStr = String(reason);
+        }
+        console.log(`[KICK ${username}] ${reasonStr}`);
+        if (bots[username]) {
+            bots[username].isOnline = false;
+            bots[username].onlineSince = null;
+        }
+        if (!offlineSince[username]) offlineSince[username] = Date.now();
+        restartLock.delete(username);
+        fireReady();
+
+        const delay = reasonStr.includes('internal error')
+            ? 10 * 60 * 1000
+            : RECONNECT_DELAY_NORMAL;
+        setTimeout(() => createBot(username), delay);
+    });
 
     bot.on('error', (err) => {
+        // EPIPE / ECONNRESET: nur Flag setzen, end-Event übernimmt Rest
         if (err.code === 'EPIPE' || err.code === 'ECONNRESET' || err.message.includes('EPIPE')) {
-    console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy instabil`);
-    proxy._failCount = (proxy._failCount || 0) + 1;
-    if (proxy._failCount >= 2) markProxyBad(proxy.host);
-    epipeOccurred = true;
-    // Kein fireReady, kein restartLock.delete hier – end kommt danach
-    return;
-}
+            console.log(`[!] ${username} — ${err.code || 'EPIPE'}, Proxy instabil`);
+            proxy._failCount = (proxy._failCount || 0) + 1;
+            if (proxy._failCount >= 2) markProxyBad(proxy.host);
+            epipeOccurred = true;
+            return; // end-Event kommt danach
+        }
 
+        // Auth-Fehler
         if (err.message.includes('Failed to obtain profile data')) {
-            // Auth-Fehler: disconnectHandled ignorieren, eigene Logik
-            if (disconnectHandled) return; // NEU
-            disconnectHandled = true;      // NEU
-            
+            if (disconnectHandled) return;
+            disconnectHandled = true;
+
             authErrorCount[username] = (authErrorCount[username] || 0) + 1;
             const attempt = authErrorCount[username];
             console.log(`[💤] ${username} — Auth-Fehler #${attempt}, lösche Token-Cache...`);
@@ -483,6 +489,16 @@ function createBot(username, onReady = null) {
         fireReady();
     });
 
+    // FIX: Watchdog ersetzt einmaligen Timeout — löscht Lock falls er nach 90s noch hängt
+    const lockWatchdog = setInterval(() => {
+        if (restartLock.has(username)) {
+            console.log(`[⚠️] ${username} — Watchdog: restartLock nach 90s noch aktiv, wird gelöscht`);
+            restartLock.delete(username);
+        }
+        clearInterval(lockWatchdog);
+    }, 90000);
+
+    // fireReady Fallback nach 60s (Login-Queue blockiert sonst)
     setTimeout(() => {
         restartLock.delete(username);
         fireReady();
@@ -492,7 +508,6 @@ function createBot(username, onReady = null) {
 // ─── Start ────────────────────────────────────────────────────────────────────
 
 checkAllProxies(true).then(() => {
-    // Proxy-Zuweisung anzeigen
     console.log('\n[📋] Proxy-Zuweisung:');
     accounts.forEach((name) => {
         const state = accountState[name];
@@ -523,14 +538,15 @@ setInterval(() => {
         const status = data.isOnline ? '✅ online' : '❌ offline';
         const proxy = getCurrentProxy(username);
         const authErr = authErrorCount[username] > 0 ? ` | AuthErr: ${authErrorCount[username]}` : '';
-        console.log(`  ${status} | ${username} | Proxy: ${proxy.host} (Slot ${state.currentPoolIdx}) | Aktivität: ${timeSince}s | Retries: ${state.joinRetries}${authErr}`);
+        const lockStr = restartLock.has(username) ? ' | 🔒LOCK' : '';
+        console.log(`  ${status} | ${username} | Proxy: ${proxy.host} (Slot ${state.currentPoolIdx}) | Aktivität: ${timeSince}s | Retries: ${state.joinRetries}${authErr}${lockStr}`);
     }
     const badList = [...badProxies.keys()];
     console.log(`  Bad Proxies: ${badList.length > 0 ? badList.join(', ') : 'keine'}`);
     console.log('-----------------------------------\n');
 }, 5 * 60 * 1000);
 
-// ─── Status Update alle 2 Stunden ────────────────────────────────────────────
+// ─── Status Update alle 6 Stunden ────────────────────────────────────────────
 
 setInterval(() => {
     const now = Date.now();
